@@ -1,0 +1,261 @@
+{
+  "_note": "Base de connaissances voyage pour le bot SMG. Informations generales par destination.",
+  "destinations": {
+    "paris": {
+      "meteo": {
+        "meilleure_periode": "Avril a octobre",
+        "temperatures": "5°C en hiver, 25°C en ete",
+        "detail": "Printemps (avril-juin) : ideal, 15-22°C. Ete (juillet-aout) : chaud, 25-35°C, tres touristique. Automne (sept-oct) : agreable, 12-20°C. Hiver (nov-mars) : froid, 3-8°C."
+      },
+      "monnaie": {
+        "devise": "Euro (EUR)",
+        "taux_fcfa": "1 EUR = 656 FCFA (taux fixe)",
+        "conseil": "Changez vos FCFA en euros avant de partir ou retirez sur place aux distributeurs. Les cartes Visa/Mastercard sont acceptees partout."
+      },
+      "decalage_horaire": "Paris est en avance de 0 a +1h sur Abidjan selon la saison (heure d'ete/hiver)",
+      "langue": "Francais — aucune barriere de langue pour les Ivoiriens !",
+      "electricite": "Prises de type C/E, 230V. Pas besoin d'adaptateur si vous avez des prises europeennes.",
+      "sante": {
+        "vaccins": "Aucun vaccin obligatoire. Vaccin fievre jaune recommande (souvent demande a l'embarquement depuis l'Afrique).",
+        "conseils": "Souscrivez une assurance sante voyage. Les soins medicaux en France sont chers sans assurance."
+      },
+      "securite": "Paris est globalement sure. Attention aux pickpockets dans le metro et les zones touristiques (Tour Eiffel, Champs-Elysees). Gardez vos objets de valeur en lieu sur.",
+      "culture": "Les Francais apprecient la politesse : toujours dire 'Bonjour' en entrant dans un commerce. Pourboire non obligatoire mais apprecie (2-5 euros).",
+      "transport_local": "Metro (2 euros le ticket), bus, RER. Achetez un pass Navigo semaine (30 euros) pour voyages illimites. Uber et taxis aussi disponibles.",
+      "nourriture": {
+        "budget_repas": "15-25 euros par repas en restaurant moyen. 8-12 euros pour un sandwich/fast-food.",
+        "specialites": "Croissant, baguette, fromages, coq au vin, creme brulee, vin francais",
+        "halal": "Nombreux restaurants halal disponibles, surtout dans les quartiers du 10e, 11e et 18e arrondissement."
+      },
+      "quoi_emporter": "Vetements selon la saison, parapluie (pluie frequente), chaussures de marche confortables, adaptateur electrique si necessaire, copie de votre visa et assurance.",
+      "compagnies_aeriennes": "Air France (direct), Corsair, Ethiopian Airlines (escale Addis-Abeba), Turkish Airlines (escale Istanbul), Royal Air Maroc (escale Casablanca). Duree vol direct : environ 6h30.",
+      "a_voir": "Tour Eiffel, Louvre, Notre-Dame, Champs-Elysees, Montmartre, Versailles, croisiere sur la Seine",
+      "sim_internet": "Achetez une carte SIM prepayee a l'aeroport (Free, Orange, SFR) pour 10-20 euros avec data inclus. Wi-Fi gratuit dans la plupart des hotels et cafes.",
+      "urgences": "SAMU (urgences medicales) : 15 | Police : 17 | Pompiers : 18 | Numero europeen : 112"
+    },
+    "dubai": {
+      "meteo": {
+        "meilleure_periode": "Novembre a mars",
+        "temperatures": "20-30°C en hiver, 40-50°C en ete",
+        "detail": "Hiver (nov-mars) : agreable, 20-30°C, ideal pour visiter. Ete (avril-oct) : tres chaud, 38-50°C, difficile d'etre dehors. Ramadan : horaires de restaurants modifies."
+      },
+      "monnaie": {
+        "devise": "Dirham des Emirats (AED)",
+        "taux_fcfa": "1 AED = environ 178 FCFA",
+        "conseil": "Le dollar US est aussi accepte dans beaucoup d'endroits. Les cartes bancaires sont acceptees partout. Distributeurs disponibles dans les malls."
+      },
+      "decalage_horaire": "Dubai est en avance de +4h sur Abidjan",
+      "langue": "Arabe (officiel) et anglais (tres repandu). Vous pouvez vous debrouiller en anglais partout.",
+      "electricite": "Prises de type G (britannique), 220V. Adaptateur necessaire ! Achetez-en un avant de partir ou a l'aeroport.",
+      "sante": {
+        "vaccins": "Aucun vaccin obligatoire. Vaccin fievre jaune recommande pour les voyageurs venant d'Afrique.",
+        "conseils": "Hydratez-vous beaucoup (chaleur extreme). Creme solaire indispensable. Pharmacies bien equipees sur place."
+      },
+      "securite": "Dubai est l'une des villes les plus sures au monde. Criminalite tres faible. Respectez les lois locales : pas d'alcool dans les lieux publics, tenue decente dans les centres commerciaux et mosquees.",
+      "culture": "Pays musulman : respectez le Ramadan, pas de nourriture en public pendant le jeune. Tenue correcte exigee (pas de vetements trop courts dans les lieux publics). Pourboire 10-15% apprecie.",
+      "transport_local": "Metro (moderne et climatise, 2-6 AED), taxis (tres abordables), Uber/Careem disponibles. Location de voiture possible.",
+      "nourriture": {
+        "budget_repas": "50-100 AED (9 000-18 000 FCFA) en restaurant moyen. 20-35 AED en fast-food.",
+        "specialites": "Shawarma, hummus, machboos, luqaimat, dattes, cafe arabe",
+        "halal": "Tout est halal a Dubai ! Aucun souci pour la nourriture."
+      },
+      "quoi_emporter": "Vetements legers mais couvrants, creme solaire, lunettes de soleil, chapeau, adaptateur electrique UK, maillot de bain (pour l'hotel/plage).",
+      "compagnies_aeriennes": "Emirates (direct), Ethiopian Airlines (escale), flydubai, Turkish Airlines. Duree vol : environ 7h (direct avec Emirates).",
+      "a_voir": "Burj Khalifa, Dubai Mall, Palm Jumeirah, Desert Safari, Dubai Marina, Gold Souk, Miracle Garden",
+      "sim_internet": "Carte SIM touriste disponible a l'aeroport (Etisalat, du) pour 50-100 AED avec data. Wi-Fi gratuit dans les malls et hotels.",
+      "urgences": "Police : 999 | Ambulance : 998 | Pompiers : 997"
+    },
+    "istanbul": {
+      "meteo": {
+        "meilleure_periode": "Avril a juin et septembre a novembre",
+        "temperatures": "5°C en hiver, 30°C en ete",
+        "detail": "Printemps (avril-juin) : ideal, 15-25°C. Ete (juillet-aout) : chaud et humide, 28-35°C. Automne (sept-nov) : agreable, 15-22°C. Hiver (dec-mars) : froid, 3-8°C, neige possible."
+      },
+      "monnaie": {
+        "devise": "Livre turque (TRY)",
+        "taux_fcfa": "1 TRY = environ 18 FCFA",
+        "conseil": "La livre turque fluctue beaucoup. Changez sur place pour un meilleur taux. Cartes acceptees dans les grands commerces. Gardez du liquide pour les petits commerces et le Grand Bazar."
+      },
+      "decalage_horaire": "Istanbul est en avance de +3h sur Abidjan",
+      "langue": "Turc. L'anglais est parle dans les zones touristiques. Quelques mots de turc apprecies : Merhaba (bonjour), Tesekkurler (merci).",
+      "electricite": "Prises de type C/F (europeennes), 220V. Pas besoin d'adaptateur si vous avez des prises europeennes.",
+      "sante": {
+        "vaccins": "Aucun vaccin obligatoire. Fievre jaune recommandee pour voyageurs venant d'Afrique.",
+        "conseils": "L'eau du robinet n'est pas toujours potable — preferez l'eau en bouteille. Pharmacies bien equipees partout."
+      },
+      "securite": "Istanbul est globalement sure pour les touristes. Attention aux arnaques au Grand Bazar (negociez toujours). Evitez de montrer des signes exterieurs de richesse.",
+      "culture": "Pays musulman laique. Retirez vos chaussures dans les mosquees, couvrez-vous les epaules et les genoux. Pourboire 10% apprecie au restaurant.",
+      "transport_local": "Istanbulkart (carte transport rechargeable, 5 TRY le trajet) pour metro, tramway, bus et ferry. Taxis et Uber disponibles.",
+      "nourriture": {
+        "budget_repas": "80-200 TRY (1 500-3 600 FCFA) en restaurant moyen. 30-60 TRY en street food.",
+        "specialites": "Kebab, baklava, simit (pain sesame), lahmacun, cay (the turc), cafe turc, doner",
+        "halal": "La grande majorite des restaurants sont halal en Turquie."
+      },
+      "quoi_emporter": "Chaussures confortables (beaucoup de marche et collines), foulard pour les mosquees, vetements selon saison, parapluie.",
+      "compagnies_aeriennes": "Turkish Airlines (direct Abidjan-Istanbul), Ethiopian Airlines (escale). Duree vol direct : environ 7h.",
+      "a_voir": "Sainte-Sophie, Mosquee Bleue, Grand Bazar, Palais de Topkapi, Croisiere Bosphore, Tour de Galata, Citerne Basilique",
+      "sim_internet": "Carte SIM touriste (Turkcell, Vodafone) a l'aeroport pour 20-30 euros. Wi-Fi gratuit dans les hotels et cafes.",
+      "urgences": "Police : 155 | Ambulance : 112 | Pompiers : 110"
+    },
+    "marrakech": {
+      "meteo": {
+        "meilleure_periode": "Mars a mai et septembre a novembre",
+        "temperatures": "10°C en hiver, 40°C en ete",
+        "detail": "Printemps (mars-mai) : ideal, 20-28°C. Ete (juin-aout) : tres chaud, 35-45°C. Automne (sept-nov) : agreable, 20-30°C. Hiver (dec-fev) : doux le jour, frais la nuit, 8-18°C."
+      },
+      "monnaie": {
+        "devise": "Dirham marocain (MAD)",
+        "taux_fcfa": "1 MAD = environ 65 FCFA",
+        "conseil": "Changez dans les bureaux de change en ville (meilleur taux qu'a l'aeroport). Gardez beaucoup de liquide pour les souks — les cartes ne sont pas toujours acceptees."
+      },
+      "decalage_horaire": "Marrakech est a la meme heure qu'Abidjan (GMT+0/+1 selon la saison)",
+      "langue": "Arabe et francais ! Les Ivoiriens se sentiront a l'aise — le francais est parle partout.",
+      "electricite": "Prises de type C/E (europeennes), 220V. Pas besoin d'adaptateur.",
+      "sante": {
+        "vaccins": "Aucun vaccin obligatoire. Fievre jaune recommandee.",
+        "conseils": "Evitez l'eau du robinet, buvez de l'eau en bouteille. Attention aux coups de soleil en ete."
+      },
+      "securite": "Marrakech est sure pour les touristes. Attention aux faux guides dans la Medina. Negociez toujours dans les souks (divisez le prix par 2 ou 3 pour commencer).",
+      "culture": "Pays musulman accueillant. Pendant le Ramadan, evitez de manger en public. Le marchandage fait partie de la culture dans les souks — c'est un jeu !",
+      "transport_local": "Taxis petits (rouge, en ville 10-30 MAD), calèches, bus. Pour les excursions : grands taxis ou agences locales.",
+      "nourriture": {
+        "budget_repas": "50-120 MAD (3 250-7 800 FCFA) en restaurant. 20-40 MAD en street food.",
+        "specialites": "Tajine, couscous, pastilla, the a la menthe, msemen, harira, mechoui",
+        "halal": "Tout est halal au Maroc."
+      },
+      "quoi_emporter": "Vetements legers et couvrants, creme solaire, chapeau, chaussures confortables pour la Medina, un pull pour les soirees.",
+      "compagnies_aeriennes": "Royal Air Maroc (direct ou via Casablanca), Air Senegal (escale Dakar), Turkish Airlines. Duree : environ 5h avec escale.",
+      "a_voir": "Place Jemaa el-Fna, Jardin Majorelle, Palais Bahia, souks de la Medina, Tombeaux Saadiens, excursion Atlas/Ourika",
+      "sim_internet": "Carte SIM (Maroc Telecom, Inwi) a 30-50 MAD avec data. Disponible a l'aeroport et en ville.",
+      "urgences": "Police : 19 | Ambulance : 15 | Pompiers : 15 | Gendarmerie : 177"
+    },
+    "dakar": {
+      "meteo": {
+        "meilleure_periode": "Novembre a mai (saison seche)",
+        "temperatures": "20-35°C toute l'annee",
+        "detail": "Saison seche (nov-mai) : agreable, 20-30°C. Saison des pluies (juin-oct) : chaud et humide, 27-35°C, pluies frequentes."
+      },
+      "monnaie": {
+        "devise": "Franc CFA (XOF) — meme monnaie qu'en Cote d'Ivoire !",
+        "taux_fcfa": "Pas de change necessaire — c'est la meme monnaie !",
+        "conseil": "Aucun change a faire. Vos billets FCFA sont valables au Senegal. Orange Money fonctionne aussi."
+      },
+      "decalage_horaire": "Meme fuseau horaire qu'Abidjan (GMT+0)",
+      "langue": "Francais (officiel) et wolof. Aucune barriere de langue !",
+      "electricite": "Prises de type C (europeennes), 230V. Pas besoin d'adaptateur.",
+      "sante": {
+        "vaccins": "Fievre jaune obligatoire (certificat demande). Antipaludisme recommande.",
+        "conseils": "Protection anti-moustiques recommandee. Buvez de l'eau en bouteille."
+      },
+      "securite": "Dakar est une ville sure et accueillante. La Teranga (hospitalite senegalaise) est reelle ! Precautions normales contre les pickpockets dans les marches.",
+      "culture": "Les Senegalais sont tres accueillants. La Teranga est sacree. On vous invitera surement a prendre le the (attaya). Le marchandage est courant dans les marches.",
+      "transport_local": "Taxis jaune-noir (negociez avant de monter, 1 000-3 000 FCFA en ville), bus Dakar Dem Dikk, minibus (car rapide). Le nouveau TER relie l'aeroport au centre.",
+      "nourriture": {
+        "budget_repas": "2 000-5 000 FCFA en restaurant moyen. 500-1 500 FCFA en gargote/street food.",
+        "specialites": "Thieboudienne (riz au poisson), yassa poulet, mafe, thiou, bissap, cafe Touba",
+        "halal": "Le Senegal est a 95% musulman — tout est halal."
+      },
+      "quoi_emporter": "Vetements legers, creme solaire, anti-moustiques, chapeau, chaussures confortables.",
+      "compagnies_aeriennes": "Air Senegal (direct Abidjan-Dakar), ASKY Airlines, Air Cote d'Ivoire. Duree vol direct : environ 2h30.",
+      "a_voir": "Ile de Goree, Lac Rose, Monument de la Renaissance, marche Sandaga, plage de Ngor, quartier Almadies",
+      "sim_internet": "Carte SIM Orange/Free Senegal a 1 000-3 000 FCFA avec data. Votre Orange Money CI peut fonctionner.",
+      "urgences": "Police : 17 | SAMU : 1515 | Pompiers : 18"
+    },
+    "johannesburg": {
+      "meteo": {
+        "meilleure_periode": "Mai a septembre (hiver austral, saison seche)",
+        "temperatures": "5-15°C en hiver (juin-aout), 20-30°C en ete (dec-fev)",
+        "detail": "Attention : les saisons sont inversees ! L'hiver en Afrique du Sud correspond a l'ete en Cote d'Ivoire. Hiver (mai-sept) : sec et frais, ideal pour les safaris. Ete (oct-avril) : chaud avec orages l'apres-midi."
+      },
+      "monnaie": {
+        "devise": "Rand sud-africain (ZAR)",
+        "taux_fcfa": "1 ZAR = environ 36 FCFA",
+        "conseil": "Changez sur place dans les bureaux de change. Les cartes Visa/Mastercard sont largement acceptees. Distributeurs disponibles partout."
+      },
+      "decalage_horaire": "Johannesburg est en avance de +2h sur Abidjan",
+      "langue": "11 langues officielles ! L'anglais est la langue des affaires et du tourisme. Quelques mots de zoulou : Sawubona (bonjour), Ngiyabonga (merci).",
+      "electricite": "Prises de type M (3 grosses broches rondes), 230V. Adaptateur obligatoire ! Achetez-en un avant de partir.",
+      "sante": {
+        "vaccins": "Fievre jaune obligatoire (certificat demande a l'arrivee). Antipaludisme recommande pour le Kruger Park.",
+        "conseils": "Protection anti-moustiques pour les safaris. Le systeme de sante prive est excellent mais cher — assurance obligatoire."
+      },
+      "securite": "Johannesburg necessite des precautions : evitez de marcher seul la nuit, ne montrez pas d'objets de valeur, privilegiez les taxis/Uber. Les zones touristiques (Sandton, Rosebank) sont sures.",
+      "culture": "L'Afrique du Sud est la 'nation arc-en-ciel'. Histoire riche avec l'apartheid. La visite de Soweto et du Musee de l'Apartheid est incontournable. Pourboire 10-15% attendu.",
+      "transport_local": "Uber (tres abordable et sur), Gautrain (train rapide aeroport-centre), taxis metres. Evitez les minibus taxis si vous ne connaissez pas.",
+      "nourriture": {
+        "budget_repas": "100-250 ZAR (3 600-9 000 FCFA) en restaurant. 50-80 ZAR en fast-food.",
+        "specialites": "Braai (barbecue), biltong (viande sechee), bobotie, bunny chow, pap et chakalaka",
+        "halal": "Restaurants halal disponibles surtout dans les quartiers de Fordsburg et Mayfair."
+      },
+      "quoi_emporter": "Vetements chauds si hiver austral (pull, veste), jumelles pour safari, creme solaire, anti-moustiques, adaptateur electrique type M.",
+      "compagnies_aeriennes": "Ethiopian Airlines (escale Addis-Abeba), Kenya Airways (escale Nairobi), South African Airways. Duree : 8-12h avec escale.",
+      "a_voir": "Musee de l'Apartheid, Soweto, Constitution Hill, Maboneng Precinct, Kruger National Park (5h de route), vignobles du Cap (vol interieur).",
+      "sim_internet": "Carte SIM (Vodacom, MTN, Cell C) a l'aeroport pour 50-100 ZAR avec data.",
+      "urgences": "Police : 10111 | Ambulance : 10177 | Pompiers : 10177"
+    },
+    "new_york": {
+      "meteo": {
+        "meilleure_periode": "Avril a juin et septembre a novembre",
+        "temperatures": "-5°C en hiver, 30°C en ete",
+        "detail": "Printemps (avril-juin) : agreable, 12-25°C. Ete (juillet-aout) : chaud et humide, 28-35°C. Automne (sept-nov) : magnifique, 10-22°C, feuilles colorees. Hiver (dec-mars) : tres froid, -5 a 5°C, neige."
+      },
+      "monnaie": {
+        "devise": "Dollar americain (USD)",
+        "taux_fcfa": "1 USD = environ 600 FCFA",
+        "conseil": "Changez avant de partir ou retirez sur place. Les cartes sont acceptees absolument partout (meme pour un cafe). Pourboire obligatoire partout (15-20%)."
+      },
+      "decalage_horaire": "New York est en retard de -5h sur Abidjan",
+      "langue": "Anglais. Un niveau basique d'anglais est necessaire. Applis de traduction utiles.",
+      "electricite": "Prises de type A/B (americaines, 2 broches plates), 120V. Adaptateur obligatoire !",
+      "sante": {
+        "vaccins": "Aucun vaccin obligatoire.",
+        "conseils": "Les soins medicaux aux USA sont extremement chers. Une assurance voyage complete est INDISPENSABLE. Une simple visite aux urgences peut couter des milliers de dollars."
+      },
+      "securite": "New York est devenue tres sure. Manhattan, Brooklyn, Queens sont tranquilles. Precautions normales dans le metro tard le soir. Evitez certains quartiers du Bronx la nuit.",
+      "culture": "Ville cosmopolite, toutes les cultures sont representees. Pourboire OBLIGATOIRE : 15-20% au restaurant, 1-2$ par boisson au bar, 1$ par bagage a l'hotel. Ne pas laisser de pourboire est tres mal vu.",
+      "transport_local": "MetroCard (2,90$ le trajet, pass 7 jours a 34$), bus, Uber/Lyft, taxi jaune. Le metro fonctionne 24h/24.",
+      "nourriture": {
+        "budget_repas": "15-30 USD (9 000-18 000 FCFA) en restaurant moyen. 8-12 USD en fast-food/deli.",
+        "specialites": "Pizza new-yorkaise, bagel, hot-dog, cheesecake, hamburger, pastrami sandwich",
+        "halal": "Tres nombreux restaurants halal, food trucks halal (Halal Guys celebre). Les quartiers de Jackson Heights et Astoria sont ideaux."
+      },
+      "quoi_emporter": "Vetements adaptes a la saison (chaud pour l'hiver !), chaussures de marche tres confortables (vous marcherez beaucoup), adaptateur electrique US.",
+      "compagnies_aeriennes": "Pas de vol direct depuis Abidjan. Escales : Air France (via Paris), Delta (via Paris), Ethiopian Airlines (via Addis-Abeba), Royal Air Maroc (via Casablanca). Duree : 12-18h avec escale.",
+      "a_voir": "Statue de la Liberte, Times Square, Central Park, Empire State Building, Brooklyn Bridge, 9/11 Memorial, Metropolitan Museum, Broadway",
+      "sim_internet": "Carte SIM prepayee (T-Mobile, AT&T) a l'aeroport pour 30-50 USD. eSIM aussi disponible.",
+      "urgences": "Police/Pompiers/Ambulance : 911"
+    },
+    "bangkok": {
+      "meteo": {
+        "meilleure_periode": "Novembre a fevrier (saison fraiche)",
+        "temperatures": "25-35°C toute l'annee",
+        "detail": "Saison fraiche (nov-fev) : ideal, 25-32°C, peu de pluie. Saison chaude (mars-mai) : tres chaud, 33-40°C. Saison des pluies (juin-oct) : averses quotidiennes mais courtes, 27-33°C."
+      },
+      "monnaie": {
+        "devise": "Baht thailandais (THB)",
+        "taux_fcfa": "1 THB = environ 18 FCFA",
+        "conseil": "Changez sur place dans les bureaux de change (Super Rich recommande). Evitez le change a l'aeroport (mauvais taux). Cartes acceptees dans les grands commerces."
+      },
+      "decalage_horaire": "Bangkok est en avance de +7h sur Abidjan",
+      "langue": "Thai. L'anglais est parle dans les zones touristiques. Quelques mots : Sawasdee (bonjour), Khop khun (merci).",
+      "electricite": "Prises de type A/B/C, 220V. La plupart des prises europeennes fonctionnent. Verifiez votre hotel.",
+      "sante": {
+        "vaccins": "Aucun vaccin obligatoire mais recommandes : hepatite A, typhoide. Fievre jaune : certificat parfois demande pour les voyageurs d'Afrique.",
+        "conseils": "Buvez uniquement de l'eau en bouteille. Attention a la street food si vous avez l'estomac sensible. Anti-moustiques recommande (dengue possible). Les hopitaux prives de Bangkok sont excellents."
+      },
+      "securite": "Bangkok est sure pour les touristes. Attention aux arnaques classiques : tuk-tuk qui vous emmenent dans des magasins, faux moines, arnaques au temple 'ferme'. Ne touchez jamais la tete de quelqu'un (sacre).",
+      "culture": "Pays bouddhiste. Retirez vos chaussures dans les temples. Ne pointez jamais du doigt. Le roi est tres respecte — ne faites jamais de remarque sur la famille royale. Les Thais sont souriants et accueillants.",
+      "transport_local": "BTS Skytrain et MRT Metro (20-60 THB), tuk-tuk (negociez, 50-150 THB), Grab (equivalent Uber), bateaux sur les canaux (khlongs). Le trafic est horrible — privilegiez le Skytrain.",
+      "nourriture": {
+        "budget_repas": "100-400 THB (1 800-7 200 FCFA) en restaurant. 40-80 THB en street food.",
+        "specialites": "Pad Thai, som tam (salade papaye), tom yum, massaman curry, mango sticky rice, smoothies tropicaux",
+        "halal": "Restaurants halal disponibles, surtout dans le quartier de Sukhumvit Soi 3 (Soi Arab). Cherchez le logo halal vert."
+      },
+      "quoi_emporter": "Vetements legers en coton, creme solaire, anti-moustiques, chaussures faciles a enlever (temples), un foulard/echarpe pour couvrir epaules dans les temples.",
+      "compagnies_aeriennes": "Ethiopian Airlines (escale Addis-Abeba), Turkish Airlines (escale Istanbul), Emirates (escale Dubai), Qatar Airways (escale Doha). Duree : 14-20h avec escale(s).",
+      "a_voir": "Wat Pho, Wat Arun, Grand Palais, Chatuchak Weekend Market, Khao San Road, marche flottant, Chinatown, temples de Ayutthaya (excursion 1 jour)",
+      "sim_internet": "Carte SIM touriste (AIS, DTAC, TrueMove) a l'aeroport pour 200-500 THB avec data illimite 7-15 jours. Excellent reseau 4G/5G.",
+      "urgences": "Police touriste : 1155 | Ambulance : 1669 | Police : 191"
+    }
+  }
+}

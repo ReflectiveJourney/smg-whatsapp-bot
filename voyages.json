@@ -1,0 +1,318 @@
+{
+  "_note": "⚠️ Remplace ces exemples par les vraies offres SMG avant le déploiement final.",
+  "destinations": [
+    {
+      "id": "paris",
+      "nom": "Paris, France",
+      "description": "La Ville Lumiere - culture, gastronomie et shopping. Visitez la Tour Eiffel, le Louvre et les Champs-Elysees.",
+      "prix_fcfa": 850000,
+      "prix_euro": 1295,
+      "duree": "7 jours / 6 nuits",
+      "disponibilite": true,
+      "prochains_departs": ["2026-05-15", "2026-06-01", "2026-06-15", "2026-07-01"],
+      "inclus": [
+        "Billet d'avion aller-retour Abidjan-Paris",
+        "Hebergement hotel 3 etoiles",
+        "Transfert aeroport-hotel",
+        "Petit-dejeuner quotidien",
+        "Assurance voyage"
+      ],
+      "non_inclus": [
+        "Visa Schengen",
+        "Repas (dejeuner et diner)",
+        "Activites et excursions",
+        "Depenses personnelles"
+      ],
+      "visa": {
+        "requis": true,
+        "type": "Visa Schengen Court Sejour",
+        "delai": "15 a 21 jours ouvres",
+        "documents": [
+          "Passeport valide 6 mois minimum",
+          "2 photos d'identite recentes",
+          "Releve bancaire des 3 derniers mois",
+          "Attestation de travail ou d'activite",
+          "Reservation hotel + billet d'avion",
+          "Assurance voyage couvrant 30 000 euros",
+          "Formulaire de demande rempli"
+        ],
+        "cout_visa_fcfa": 55000,
+        "lieu_depot": "VFS Global Abidjan, Cocody Danga"
+      }
+    },
+    {
+      "id": "dubai",
+      "nom": "Dubai, Emirats Arabes Unis",
+      "description": "La ville du luxe et de la demesure - Burj Khalifa, Dubai Mall, desert et plages paradisiaques.",
+      "prix_fcfa": 750000,
+      "prix_euro": 1143,
+      "duree": "5 jours / 4 nuits",
+      "disponibilite": true,
+      "prochains_departs": ["2026-05-10", "2026-05-25", "2026-06-10", "2026-07-05"],
+      "inclus": [
+        "Billet d'avion aller-retour Abidjan-Dubai",
+        "Hebergement hotel 4 etoiles",
+        "Transfert aeroport-hotel",
+        "Petit-dejeuner quotidien",
+        "Excursion desert en 4x4",
+        "Assurance voyage"
+      ],
+      "non_inclus": [
+        "Visa (mais obtention facilitee par SMG)",
+        "Repas (dejeuner et diner)",
+        "Shopping et depenses personnelles"
+      ],
+      "visa": {
+        "requis": true,
+        "type": "Visa touristique 30 jours",
+        "delai": "3 a 5 jours ouvres",
+        "documents": [
+          "Passeport valide 6 mois minimum",
+          "Photo d'identite couleur",
+          "Reservation hotel",
+          "Billet d'avion retour"
+        ],
+        "cout_visa_fcfa": 45000,
+        "lieu_depot": "En ligne via SMG (on s'occupe de tout)"
+      }
+    },
+    {
+      "id": "istanbul",
+      "nom": "Istanbul, Turquie",
+      "description": "Carrefour entre l'Europe et l'Asie - mosquees majestueuses, Grand Bazar et cuisine turque exceptionnelle.",
+      "prix_fcfa": 650000,
+      "prix_euro": 991,
+      "duree": "6 jours / 5 nuits",
+      "disponibilite": true,
+      "prochains_departs": ["2026-05-20", "2026-06-05", "2026-06-20", "2026-07-10"],
+      "inclus": [
+        "Billet d'avion aller-retour Abidjan-Istanbul",
+        "Hebergement hotel 3 etoiles (Sultanahmet)",
+        "Transfert aeroport-hotel",
+        "Petit-dejeuner turc quotidien",
+        "Visite guidee Sainte-Sophie + Mosquee Bleue",
+        "Assurance voyage"
+      ],
+      "non_inclus": [
+        "E-Visa",
+        "Repas (dejeuner et diner)",
+        "Croisiere Bosphore (en option : 35 000 FCFA)",
+        "Depenses personnelles"
+      ],
+      "visa": {
+        "requis": true,
+        "type": "E-Visa touristique",
+        "delai": "24 a 48 heures",
+        "documents": [
+          "Passeport valide 6 mois minimum",
+          "Carte bancaire pour paiement en ligne"
+        ],
+        "cout_visa_fcfa": 30000,
+        "lieu_depot": "En ligne sur evisa.gov.tr"
+      }
+    },
+    {
+      "id": "marrakech",
+      "nom": "Marrakech, Maroc",
+      "description": "La ville rouge - souks colores, palais, jardins et cuisine marocaine epicee. Depaysement garanti.",
+      "prix_fcfa": 550000,
+      "prix_euro": 838,
+      "duree": "5 jours / 4 nuits",
+      "disponibilite": true,
+      "prochains_departs": ["2026-05-08", "2026-05-22", "2026-06-12", "2026-07-03"],
+      "inclus": [
+        "Billet d'avion aller-retour Abidjan-Marrakech",
+        "Hebergement en riad traditionnel",
+        "Transfert aeroport-riad",
+        "Petit-dejeuner marocain quotidien",
+        "Visite guidee de la Medina",
+        "Assurance voyage"
+      ],
+      "non_inclus": [
+        "Repas (dejeuner et diner)",
+        "Excursion desert Merzouga (en option : 120 000 FCFA)",
+        "Depenses personnelles"
+      ],
+      "visa": {
+        "requis": false,
+        "type": "Exemption de visa",
+        "delai": "Aucun delai - acces libre",
+        "documents": [
+          "Passeport valide 6 mois minimum",
+          "Billet d'avion retour"
+        ],
+        "cout_visa_fcfa": 0,
+        "lieu_depot": "Aucun - pas de visa necessaire pour les Ivoiriens (sejour max 90 jours)"
+      }
+    },
+    {
+      "id": "dakar",
+      "nom": "Dakar, Senegal",
+      "description": "La porte de l'Afrique de l'Ouest - ile de Goree, plages, culture et hospitalite legendaire (Teranga).",
+      "prix_fcfa": 350000,
+      "prix_euro": 534,
+      "duree": "4 jours / 3 nuits",
+      "disponibilite": true,
+      "prochains_departs": ["2026-05-05", "2026-05-19", "2026-06-02", "2026-06-16"],
+      "inclus": [
+        "Billet d'avion aller-retour Abidjan-Dakar",
+        "Hebergement hotel 3 etoiles",
+        "Transfert aeroport-hotel",
+        "Petit-dejeuner quotidien",
+        "Excursion ile de Goree",
+        "Assurance voyage"
+      ],
+      "non_inclus": [
+        "Repas (dejeuner et diner)",
+        "Lac Rose (en option : 20 000 FCFA)",
+        "Depenses personnelles"
+      ],
+      "visa": {
+        "requis": false,
+        "type": "Libre circulation CEDEAO",
+        "delai": "Aucun",
+        "documents": [
+          "Passeport ou carte d'identite CEDEAO valide"
+        ],
+        "cout_visa_fcfa": 0,
+        "lieu_depot": "Aucun - libre circulation pour les ressortissants CEDEAO"
+      }
+    },
+    {
+      "id": "johannesburg",
+      "nom": "Johannesburg, Afrique du Sud",
+      "description": "La ville de l'or - Soweto, Apartheid Museum, safaris et vignobles. L'Afrique dans toute sa diversite.",
+      "prix_fcfa": 900000,
+      "prix_euro": 1372,
+      "duree": "7 jours / 6 nuits",
+      "disponibilite": true,
+      "prochains_departs": ["2026-06-01", "2026-06-20", "2026-07-15"],
+      "inclus": [
+        "Billet d'avion aller-retour Abidjan-Johannesburg",
+        "Hebergement hotel 3 etoiles",
+        "Transfert aeroport-hotel",
+        "Petit-dejeuner quotidien",
+        "Visite Soweto + Apartheid Museum",
+        "Assurance voyage"
+      ],
+      "non_inclus": [
+        "Visa",
+        "Safari Kruger Park (en option : 250 000 FCFA)",
+        "Repas (dejeuner et diner)",
+        "Depenses personnelles"
+      ],
+      "visa": {
+        "requis": true,
+        "type": "Visa touristique",
+        "delai": "5 a 10 jours ouvres",
+        "documents": [
+          "Passeport valide 6 mois minimum (2 pages vierges)",
+          "2 photos d'identite",
+          "Releve bancaire des 3 derniers mois",
+          "Reservation hotel + billet d'avion retour",
+          "Lettre d'invitation ou itineraire de voyage",
+          "Preuve de fonds suffisants"
+        ],
+        "cout_visa_fcfa": 50000,
+        "lieu_depot": "Ambassade d'Afrique du Sud, Abidjan Cocody"
+      }
+    },
+    {
+      "id": "new_york",
+      "nom": "New York, Etats-Unis",
+      "description": "La ville qui ne dort jamais - Times Square, Statue de la Liberte, Central Park et Broadway.",
+      "prix_fcfa": 1200000,
+      "prix_euro": 1829,
+      "duree": "8 jours / 7 nuits",
+      "disponibilite": true,
+      "prochains_departs": ["2026-06-15", "2026-07-01", "2026-08-01"],
+      "inclus": [
+        "Billet d'avion aller-retour Abidjan-New York",
+        "Hebergement hotel 3 etoiles (Manhattan)",
+        "Transfert aeroport-hotel",
+        "Petit-dejeuner quotidien",
+        "City pass 3 attractions incluses",
+        "Assurance voyage"
+      ],
+      "non_inclus": [
+        "Visa B1/B2",
+        "Repas (dejeuner et diner)",
+        "Activites supplementaires",
+        "Depenses personnelles"
+      ],
+      "visa": {
+        "requis": true,
+        "type": "Visa B1/B2 touristique",
+        "delai": "30 a 60 jours (entretien a l'ambassade obligatoire)",
+        "documents": [
+          "Passeport valide 6 mois minimum",
+          "Formulaire DS-160 rempli en ligne",
+          "Photo aux normes US (5x5 cm)",
+          "Releves bancaires des 6 derniers mois",
+          "Attestation de travail ou preuve d'activite",
+          "Preuve d'attaches au pays (propriete, famille)",
+          "Paiement des frais de visa en ligne"
+        ],
+        "cout_visa_fcfa": 105000,
+        "lieu_depot": "Ambassade des Etats-Unis, Abidjan Riviera"
+      }
+    },
+    {
+      "id": "bangkok",
+      "nom": "Bangkok, Thailande",
+      "description": "Le pays du sourire - temples dores, street food legendaire, plages et iles paradisiaques.",
+      "prix_fcfa": 950000,
+      "prix_euro": 1448,
+      "duree": "8 jours / 7 nuits",
+      "disponibilite": true,
+      "prochains_departs": ["2026-06-10", "2026-07-05", "2026-08-10"],
+      "inclus": [
+        "Billet d'avion aller-retour Abidjan-Bangkok",
+        "Hebergement hotel 4 etoiles",
+        "Transfert aeroport-hotel",
+        "Petit-dejeuner quotidien",
+        "Visite temples Wat Pho + Wat Arun",
+        "Excursion marche flottant",
+        "Assurance voyage"
+      ],
+      "non_inclus": [
+        "E-Visa ou visa a l'arrivee",
+        "Repas (dejeuner et diner)",
+        "Extension plages Phuket/Koh Samui (en option : 200 000 FCFA)",
+        "Depenses personnelles"
+      ],
+      "visa": {
+        "requis": true,
+        "type": "E-Visa ou Visa on arrival (selon duree)",
+        "delai": "3 a 7 jours ouvres pour le e-Visa",
+        "documents": [
+          "Passeport valide 6 mois minimum",
+          "Photo d'identite recente",
+          "Billet d'avion retour",
+          "Preuve d'hebergement",
+          "Preuve de fonds (equivalent 20 000 THB)"
+        ],
+        "cout_visa_fcfa": 20000,
+        "lieu_depot": "En ligne ou a l'arrivee a l'aeroport de Bangkok"
+      }
+    }
+  ],
+  "faq": {
+    "bagages": {
+      "question": "Combien de bagages ai-je droit ?",
+      "reponse": "En general, vous avez droit a :\n- *1 bagage en cabine* : 7-10 kg (55x35x25 cm)\n- *1 bagage en soute* : 23 kg\n\nLe poids exact depend de la compagnie aerienne. SMG vous communiquera les details exacts avec votre billet."
+    },
+    "assurance": {
+      "question": "L'assurance voyage est-elle incluse ?",
+      "reponse": "Oui, une *assurance voyage de base* est incluse dans tous nos forfaits. Elle couvre :\n- Frais medicaux a l'etranger\n- Rapatriement sanitaire\n- Perte de bagages\n\nPour une couverture premium (annulation, retard de vol), contactez un conseiller SMG."
+    },
+    "annulation": {
+      "question": "Puis-je annuler ma reservation ?",
+      "reponse": "Oui, voici nos conditions d'annulation :\n- *Plus de 30 jours avant le depart* : remboursement a 80%\n- *15 a 30 jours avant* : remboursement a 50%\n- *Moins de 15 jours* : aucun remboursement\n\nContactez-nous le plus tot possible pour toute modification."
+    },
+    "paiement": {
+      "question": "Quels modes de paiement acceptez-vous ?",
+      "reponse": "SMG accepte plusieurs modes de paiement :\n- *Mobile Money* : Orange Money, MTN Money, Moov Money, Wave\n- *Virement bancaire*\n- *Especes* dans nos bureaux\n- *Paiement en 2 ou 3 fois* possible (nous consulter)"
+    }
+  }
+}
