@@ -1,57 +1,54 @@
 // ============================================
 // EXPEDITEUR.JS — Envoi des messages WhatsApp
-// Option A — Twilio
+// Meta WhatsApp Cloud API
 // ============================================
-// Ce fichier envoie les réponses du bot au client via WhatsApp
-// en utilisant le SDK Twilio (bibliothèque officielle Twilio).
 
-const twilio = require('twilio');
+const axios = require('axios');
 
-// Création du client Twilio avec les identifiants du fichier .env
-// Le "client" est l'outil qui permet de communiquer avec Twilio
-const client = twilio(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN
-);
-
-// Le numéro WhatsApp du bot (le numéro du Sandbox Twilio)
-const NUMERO_BOT = process.env.TWILIO_WHATSAPP_NUMBER;
+const WHATSAPP_API_URL = `https://graph.facebook.com/v21.0/${process.env.PHONE_NUMBER_ID}/messages`;
+const ACCESS_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN;
 
 // Envoie un message WhatsApp à un numéro donné
 async function envoyerMessage(numeroDestinataire, texte) {
   try {
-    // WhatsApp a une limite de ~4096 caractères par message
-    // Si le message est trop long, on le découpe en plusieurs parties
     const MAX_LONGUEUR = 4000;
 
     if (texte.length <= MAX_LONGUEUR) {
-      // Message court : on envoie directement
-      await client.messages.create({
-        body: texte,
-        from: NUMERO_BOT,
-        to: numeroDestinataire,
-      });
+      await envoyerMessageAPI(numeroDestinataire, texte);
     } else {
-      // Message long : on découpe et envoie en plusieurs parties
       const parties = decouperMessage(texte, MAX_LONGUEUR);
       for (const partie of parties) {
-        await client.messages.create({
-          body: partie,
-          from: NUMERO_BOT,
-          to: numeroDestinataire,
-        });
+        await envoyerMessageAPI(numeroDestinataire, partie);
       }
     }
 
     console.log(`Message envoyé à ${numeroDestinataire}`);
   } catch (erreur) {
-    console.error(`Erreur envoi message à ${numeroDestinataire} :`, erreur.message);
+    console.error(`Erreur envoi message à ${numeroDestinataire} :`, erreur.response?.data || erreur.message);
     throw erreur;
   }
 }
 
+// Appel direct à l'API Meta WhatsApp
+async function envoyerMessageAPI(numero, texte) {
+  await axios.post(
+    WHATSAPP_API_URL,
+    {
+      messaging_product: 'whatsapp',
+      to: numero,
+      type: 'text',
+      text: { body: texte },
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+}
+
 // Envoie un message WhatsApp à l'admin SMG
-// Utilisé par le module d'escalade pour alerter l'admin
 async function envoyerMessageAdmin(texte) {
   const NUMERO_ADMIN = process.env.ADMIN_WHATSAPP_NUMBER;
 
@@ -61,19 +58,14 @@ async function envoyerMessageAdmin(texte) {
   }
 
   try {
-    await client.messages.create({
-      body: texte,
-      from: NUMERO_BOT,
-      to: NUMERO_ADMIN,
-    });
-    console.log('Message d\'alerte envoyé à l\'admin');
+    await envoyerMessageAPI(NUMERO_ADMIN, texte);
+    console.log("Message d'alerte envoyé à l'admin");
   } catch (erreur) {
-    console.error('Erreur envoi message admin :', erreur.message);
+    console.error('Erreur envoi message admin :', erreur.response?.data || erreur.message);
   }
 }
 
 // Découpe un message long en plusieurs parties
-// en essayant de couper à un saut de ligne plutôt qu'au milieu d'un mot
 function decouperMessage(texte, maxLongueur) {
   const parties = [];
   let restant = texte;
@@ -84,10 +76,8 @@ function decouperMessage(texte, maxLongueur) {
       break;
     }
 
-    // Chercher le dernier saut de ligne avant la limite
     let coupure = restant.lastIndexOf('\n', maxLongueur);
     if (coupure === -1 || coupure < maxLongueur / 2) {
-      // Si pas de saut de ligne, couper au dernier espace
       coupure = restant.lastIndexOf(' ', maxLongueur);
     }
     if (coupure === -1) {

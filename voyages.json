@@ -1,5 +1,15 @@
 {
-  "_note": "⚠️ Remplace ces exemples par les vraies offres SMG avant le déploiement final.",
+  "_note": "Données SMG Voyages — Agence Sous Mon Gîte, Abidjan, Côte d'Ivoire",
+  "agence": {
+    "nom": "Sous Mon Gîte (SMG)",
+    "slogan": "Faire découvrir le monde aux Ivoiriens et faire découvrir la Côte d'Ivoire au monde",
+    "adresse": "47, rue Fleming, Zone 4, Abidjan, Côte d'Ivoire",
+    "telephone": "+225 07 87 198 765",
+    "email": "smgvoyages@gmail.com",
+    "facebook": "SMG Agence de Voyage",
+    "fondatrice": "DADIE AYA-KAN MARIE-PAULE GABRIELLE",
+    "date_creation": "14 mai 2017"
+  },
   "destinations": [
     {
       "id": "paris",
@@ -146,25 +156,68 @@
       }
     },
     {
-      "id": "dakar",
-      "nom": "Dakar, Senegal",
-      "description": "La porte de l'Afrique de l'Ouest - ile de Goree, plages, culture et hospitalite legendaire (Teranga).",
-      "prix_fcfa": 350000,
-      "prix_euro": 534,
-      "duree": "4 jours / 3 nuits",
+      "id": "cap_vert",
+      "nom": "Cap-Vert",
+      "description": "Les iles du soleil et de la musique - Decouverte de Praia, Cidade Velha (patrimoine UNESCO), Tarrafal, activites nautiques et culturelles. Un bijou de l'Atlantique.",
+      "prix_fcfa": 600000,
+      "prix_euro": 915,
+      "duree": "6 jours / 5 nuits",
       "disponibilite": true,
+      "package_phare": true,
+      "prochains_departs": ["2026-05-15", "2026-06-10", "2026-07-05"],
+      "inclus": [
+        "Billet d'avion aller-retour Abidjan-Praia",
+        "Hebergement hotel",
+        "Transfert aeroport-hotel",
+        "Visite Praia et Cidade Velha (patrimoine UNESCO)",
+        "Excursion Tarrafal",
+        "Activites nautiques",
+        "Decouverte culturelle locale",
+        "Assurance voyage"
+      ],
+      "non_inclus": [
+        "Visa (assistance SMG disponible)",
+        "Repas (dejeuner et diner)",
+        "Depenses personnelles"
+      ],
+      "visa": {
+        "requis": true,
+        "type": "Visa touristique Cap-Vert",
+        "delai": "5 a 10 jours ouvres",
+        "documents": [
+          "Passeport valide 6 mois minimum",
+          "Photo d'identite",
+          "Reservation hotel + billet d'avion",
+          "Assurance voyage"
+        ],
+        "cout_visa_fcfa": 35000,
+        "lieu_depot": "SMG s'occupe de toutes les demarches"
+      }
+    },
+    {
+      "id": "dakar",
+      "nom": "Senegal (Dakar, Saly, Lac Rose)",
+      "description": "La porte de l'Afrique de l'Ouest - Dakar CityTOUR, ile de Goree, Lac Rose, Saly, safari et decouvertes culturelles. L'hospitalite legendaire du Senegal (Teranga).",
+      "prix_fcfa": 450000,
+      "prix_euro": 686,
+      "duree": "7 jours / 6 nuits",
+      "disponibilite": true,
+      "package_phare": true,
       "prochains_departs": ["2026-05-05", "2026-05-19", "2026-06-02", "2026-06-16"],
       "inclus": [
         "Billet d'avion aller-retour Abidjan-Dakar",
-        "Hebergement hotel 3 etoiles",
+        "Hebergement hotel",
         "Transfert aeroport-hotel",
-        "Petit-dejeuner quotidien",
+        "Dakar CityTOUR",
         "Excursion ile de Goree",
+        "Visite Lac Rose",
+        "Sejour a Saly",
+        "Safari",
+        "Decouvertes culturelles",
         "Assurance voyage"
       ],
       "non_inclus": [
         "Repas (dejeuner et diner)",
-        "Lac Rose (en option : 20 000 FCFA)",
         "Depenses personnelles"
       ],
       "visa": {

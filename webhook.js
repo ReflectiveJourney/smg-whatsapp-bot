@@ -1,44 +1,71 @@
 // ============================================
 // WEBHOOK.JS — Réception des messages WhatsApp
-// Option A — Twilio
+// Meta WhatsApp Cloud API
 // ============================================
-// Ce fichier reçoit les messages envoyés par les clients sur WhatsApp.
-// Twilio intercepte le message et l'envoie ici automatiquement.
 
 const bot = require('./bot');
 const expediteur = require('./expediteur');
 
+// Vérification du webhook par Meta (appelé une seule fois lors de la config)
+function verifier(req, res) {
+  const mode = req.query['hub.mode'];
+  const token = req.query['hub.verify_token'];
+  const challenge = req.query['hub.challenge'];
+
+  if (mode === 'subscribe' && token === process.env.VERIFY_TOKEN) {
+    console.log('Webhook vérifié par Meta !');
+    return res.status(200).send(challenge);
+  }
+
+  console.error('Échec de vérification du webhook');
+  return res.sendStatus(403);
+}
+
+// Réception des messages WhatsApp
 async function recevoir(req, res) {
   try {
-    // Twilio envoie les infos du message dans req.body
-    // "Body" = le texte du message, "From" = le numéro du client
-    const messageClient = req.body.Body;
-    const numeroClient = req.body.From; // Format : whatsapp:+225XXXXXXXXXX
+    // Répondre immédiatement à Meta (évite les timeouts et les renvois)
+    res.sendStatus(200);
 
-    // Si le message est vide, on ignore
+    const body = req.body;
+
+    // Vérifier que c'est bien un message WhatsApp
+    if (
+      !body.object ||
+      !body.entry ||
+      !body.entry[0].changes ||
+      !body.entry[0].changes[0].value.messages
+    ) {
+      return;
+    }
+
+    const change = body.entry[0].changes[0].value;
+    const message = change.messages[0];
+
+    // On ne traite que les messages texte
+    if (message.type !== 'text') {
+      return;
+    }
+
+    const messageClient = message.text.body;
+    const numeroClient = message.from; // Format : 225XXXXXXXXXX (sans +)
+
     if (!messageClient || !numeroClient) {
-      return res.status(200).send('OK');
+      return;
     }
 
     console.log(`Message reçu de ${numeroClient} : ${messageClient}`);
 
-    // On envoie le message au cerveau du bot pour qu'il trouve la bonne réponse
+    // Envoyer le message au cerveau du bot
     const reponse = await bot.traiterMessage(messageClient, numeroClient);
 
-    // On envoie la réponse au client via WhatsApp
+    // Envoyer la réponse au client via WhatsApp
     await expediteur.envoyerMessage(numeroClient, reponse);
 
     console.log(`Réponse envoyée à ${numeroClient}`);
-
-    // On répond à Twilio avec un status 200 (= tout s'est bien passé)
-    // Si on ne répond pas, Twilio va croire qu'il y a eu une erreur
-    res.status(200).send('OK');
-
   } catch (erreur) {
     console.error('Erreur dans le webhook :', erreur.message);
-    // Même en cas d'erreur, on répond 200 à Twilio pour éviter qu'il renvoie le message en boucle
-    res.status(200).send('OK');
   }
 }
 
-module.exports = { recevoir };
+module.exports = { verifier, recevoir };

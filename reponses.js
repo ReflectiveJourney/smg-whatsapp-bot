@@ -14,7 +14,9 @@ const connaissances = require('./connaissances.json');
 // Affiché au premier message, quand le client tape "menu", "aide" ou "0"
 function salutation() {
   return (
-    `*Bienvenue chez SMG Voyages !* ✈️🌍\n\n` +
+    `*Bienvenue chez Sous Mon Gîte (SMG) !* ✈️🌍\n\n` +
+    `_Votre agence de voyage à Abidjan depuis 2017_\n` +
+    `_"Faire découvrir le monde aux Ivoiriens !"_\n\n` +
     `Je suis votre assistant virtuel. Tapez un *chiffre* ou écrivez votre demande :\n\n` +
     `1️⃣ *Destinations* — Découvrir où voyager\n` +
     `2️⃣ *Prix* — Connaître nos tarifs\n` +
@@ -335,8 +337,13 @@ function faqPaiement() {
 function escaladeMessage() {
   return (
     `*🤝 Transfert vers un conseiller SMG*\n\n` +
-    `Je transfère votre demande à un conseiller SMG qui vous contactera sous *30 minutes*.\n\n` +
-    `En attendant, n'hésitez pas à me poser d'autres questions ! Tapez *menu* pour revoir les options. 😊`
+    `Je transfère votre demande à notre équipe qui vous contactera sous *30 minutes*.\n\n` +
+    `📞 Vous pouvez aussi nous joindre directement :\n` +
+    `- *Téléphone :* +225 07 87 198 765\n` +
+    `- *Email :* smgvoyages@gmail.com\n` +
+    `- *Facebook :* SMG Agence de Voyage\n` +
+    `- *Adresse :* 47, rue Fleming, Zone 4, Abidjan\n\n` +
+    `En attendant, tapez *menu* pour revoir les options. 😊`
   );
 }
 

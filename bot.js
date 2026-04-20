@@ -439,7 +439,8 @@ function extraireDestination(message) {
     { id: 'dubai', mots: ['dubai', 'dubaï', 'emirat', 'émirat'] },
     { id: 'istanbul', mots: ['istanbul', 'turquie'] },
     { id: 'marrakech', mots: ['marrakech', 'maroc', 'marocain'] },
-    { id: 'dakar', mots: ['dakar', 'sénégal', 'senegal'] },
+    { id: 'cap_vert', mots: ['cap-vert', 'cap vert', 'capvert', 'praia', 'santiago', 'tarrafal', 'cidade velha'] },
+    { id: 'dakar', mots: ['dakar', 'sénégal', 'senegal', 'saly', 'lac rose', 'goree', 'gorée'] },
     { id: 'johannesburg', mots: ['johannesburg', 'afrique du sud', 'joburg'] },
     { id: 'new_york', mots: ['new york', 'nyc', 'états-unis', 'etats-unis', 'usa', 'amerique', 'amérique'] },
     { id: 'bangkok', mots: ['bangkok', 'thailande', 'thaïlande'] }
