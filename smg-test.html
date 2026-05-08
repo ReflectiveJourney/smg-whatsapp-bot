@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SMG Voyages — Bot WhatsApp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g-dark:#075E54;--g-mid:#128C7E;--g-light:#25D366;--g-pale:#dcf8c6;
+  --bg:#efeae2;--bbot:#fff;--buser:#dcf8c6;--txt:#111b21;--muted:#667781;
+  --sh:0 1px 2px rgba(0,0,0,.13);
+}
+body{font-family:'Inter',system-ui,sans-serif;background:#0a1929;display:flex;
+  justify-content:center;align-items:center;min-height:100vh;padding:8px}
+
+.shell{width:100%;max-width:430px;height:100dvh;max-height:860px;
+  display:flex;flex-direction:column;background:var(--bg);
+  overflow:hidden;box-shadow:0 20px 80px rgba(0,0,0,.7);border-radius:4px}
+
+/* HEADER */
+.hdr{background:var(--g-dark);padding:10px 16px;display:flex;
+  align-items:center;gap:12px;flex-shrink:0;
+  background:linear-gradient(135deg,#075E54,#0a8a7a)}
+.av{width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(135deg,var(--g-light),var(--g-mid));
+  display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.hi{flex:1;min-width:0}
+.hn{color:#fff;font-size:16px;font-weight:600;letter-spacing:.01em}
+.hs{color:rgba(255,255,255,.78);font-size:12px;margin-top:1px;display:flex;align-items:center;gap:5px}
+.dot{width:7px;height:7px;background:var(--g-light);border-radius:50%;
+  animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* MESSAGES */
+.msgs{flex:1;overflow-y:auto;padding:8px 12px 12px;
+  background:var(--bg) url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23b2bec3' fill-opacity='0.07'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+  scroll-behavior:smooth}
+.msgs::-webkit-scrollbar{width:4px}
+.msgs::-webkit-scrollbar-thumb{background:rgba(0,0,0,.18);border-radius:4px}
+
+.datelabel{text-align:center;margin:12px 0 6px}
+.datelabel span{background:rgba(255,255,255,.88);color:var(--muted);
+  font-size:11.5px;padding:4px 10px;border-radius:8px;box-shadow:var(--sh)}
+
+.row{display:flex;margin-bottom:3px}
+.row.bot{justify-content:flex-start}
+.row.user{justify-content:flex-end}
+
+.bub{max-width:80%;padding:7px 10px 5px;border-radius:7.5px;
+  font-size:14px;line-height:1.48;color:var(--txt);box-shadow:var(--sh);
+  position:relative;word-break:break-word;animation:pop .16s ease-out}
+@keyframes pop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.row.bot .bub{background:var(--bbot);border-top-left-radius:2px}
+.row.user .bub{background:var(--buser);border-top-right-radius:2px}
+.row.bot .bub::before{content:'';position:absolute;left:-7px;top:0;
+  border-width:0 8px 8px 0;border-style:solid;border-color:transparent #fff transparent transparent}
+.row.user .bub::after{content:'';position:absolute;right:-7px;top:0;
+  border-width:0 0 8px 8px;border-style:solid;border-color:transparent transparent transparent var(--g-pale)}
+.meta{display:flex;align-items:center;justify-content:flex-end;gap:3px;margin-top:3px}
+.ts{font-size:10.5px;color:var(--muted)}
+.ck{font-size:12px;color:#53bdeb}
+.bub strong{font-weight:600}
+.bub em{font-style:italic}
+.bub a{color:var(--g-mid);text-decoration:none}
+
+/* TYPING */
+.typing-row{display:flex;margin-bottom:4px}
+.typing-bub{background:#fff;border-radius:7.5px;border-top-left-radius:2px;
+  padding:11px 13px;display:inline-flex;gap:5px;box-shadow:var(--sh);position:relative}
+.typing-bub::before{content:'';position:absolute;left:-7px;top:0;
+  border-width:0 8px 8px 0;border-style:solid;border-color:transparent #fff transparent transparent}
+.d{width:7px;height:7px;background:var(--muted);border-radius:50%;animation:bk .9s infinite}
+.d:nth-child(2){animation-delay:.15s}.d:nth-child(3){animation-delay:.3s}
+@keyframes bk{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+
+/* CHIPS */
+.chips{display:flex;gap:6px;padding:6px 12px 2px;overflow-x:auto;flex-shrink:0;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{background:#fff;border:1.5px solid var(--g-mid);color:var(--g-mid);
+  border-radius:20px;padding:5px 13px;font-size:12px;white-space:nowrap;
+  cursor:pointer;font-weight:500;transition:all .15s;flex-shrink:0;font-family:inherit}
+.chip:hover{background:var(--g-mid);color:#fff}
+
+/* INPUT */
+.bar{background:#f0f2f5;padding:8px 12px;display:flex;align-items:flex-end;
+  gap:8px;flex-shrink:0;border-top:1px solid rgba(0,0,0,.07)}
+.wrap{flex:1;background:#fff;border-radius:24px;display:flex;align-items:flex-end;
+  padding:9px 14px;box-shadow:0 1px 3px rgba(0,0,0,.09);min-height:44px}
+#inp{flex:1;border:none;outline:none;font-family:inherit;font-size:15px;
+  line-height:1.4;color:var(--txt);resize:none;max-height:120px;background:transparent}
+#inp::placeholder{color:#aaa}
+.sbtn{width:48px;height:48px;border-radius:50%;background:var(--g-mid);border:none;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:background .15s,transform .1s;box-shadow:0 2px 6px rgba(18,140,126,.4)}
+.sbtn:hover{background:var(--g-dark)}.sbtn:active{transform:scale(.92)}
+.sbtn svg{width:22px;height:22px;fill:#fff}
+
+@media(min-width:480px){.shell{border-radius:12px;height:90vh}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="hdr">
+    <div class="av">🌍</div>
+    <div class="hi">
+      <div class="hn">SMG Voyages ✈️</div>
+      <div class="hs"><span class="dot"></span>Assistant virtuel • En ligne</div>
+    </div>
+  </div>
+
+  <div class="msgs" id="msgs">
+    <div class="datelabel"><span id="today"></span></div>
+  </div>
+
+  <div class="chips">
+    <button class="chip" onclick="chip('Bonjour')">👋 Bonjour</button>
+    <button class="chip" onclick="chip('Voir les destinations')">🗺️ Destinations</button>
+    <button class="chip" onclick="chip('Prix Cap-Vert')">💰 Prix</button>
+    <button class="chip" onclick="chip('Visa Paris')">🛂 Visa</button>
+    <button class="chip" onclick="chip('Je veux réserver')">📝 Réserver</button>
+    <button class="chip" onclick="chip('Météo Dubai')">🌤️ Météo</button>
+    <button class="chip" onclick="chip('Parler à un conseiller')">🤝 Conseiller</button>
+  </div>
+
+  <div class="bar">
+    <div class="wrap"><textarea id="inp" placeholder="Écrivez un message…" rows="1"></textarea></div>
+    <button class="sbtn" onclick="send()">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DONNÉES — voyages.json embarqué
+// ============================================================
+const VOYAGES = {
+  agence:{nom:"Sous Mon Gîte (SMG)",slogan:"Faire découvrir le monde aux Ivoiriens et faire découvrir la Côte d'Ivoire au monde",adresse:"47, rue Fleming, Zone 4, Abidjan, Côte d'Ivoire",telephone:"+225 07 87 198 765",email:"smgvoyages@gmail.com",facebook:"SMG Agence de Voyage",fondatrice:"DADIE AYA-KAN MARIE-PAULE GABRIELLE",date_creation:"14 mai 2017"},
+  destinations:[
+    {id:"cap_vert",nom:"Cap-Vert",description:"Les îles du soleil et de la musique — Praia, Cidade Velha (UNESCO), Tarrafal, activités nautiques.",prix_fcfa:600000,prix_euro:915,duree:"6 jours / 5 nuits",disponibilite:true,package_phare:true,prochains_departs:["2026-05-15","2026-06-10","2026-07-05"],inclus:["Billet d'avion A/R Abidjan-Praia","Hébergement hôtel","Transferts aéroport-hôtel","Visite Praia & Cidade Velha (UNESCO)","Excursion Tarrafal","Activités nautiques","Assurance voyage"],non_inclus:["Visa (assistance SMG disponible)","Repas déjeuner & dîner","Dépenses personnelles"],visa:{requis:true,type:"Visa touristique Cap-Vert",delai:"5 à 10 jours ouvrés",documents:["Passeport valide 6 mois minimum","Photo d'identité","Réservation hôtel + billet d'avion","Assurance voyage"],cout_visa_fcfa:35000,lieu_depot:"SMG s'occupe de toutes les démarches"}},
+    {id:"dakar",nom:"Sénégal (Dakar, Saly, Lac Rose)",description:"Dakar CityTOUR, île de Gorée, Lac Rose, Saly, safari. L'hospitalité légendaire Teranga !",prix_fcfa:450000,prix_euro:686,duree:"7 jours / 6 nuits",disponibilite:true,package_phare:true,prochains_departs:["2026-05-05","2026-05-19","2026-06-02","2026-06-16"],inclus:["Billet d'avion A/R Abidjan-Dakar","Hébergement hôtel","Transferts aéroport-hôtel","Dakar CityTOUR","Excursion île de Gorée","Visite Lac Rose","Séjour à Saly","Safari","Assurance voyage"],non_inclus:["Repas déjeuner & dîner","Dépenses personnelles"],visa:{requis:false,type:"Libre circulation CEDEAO",delai:"Aucun",documents:["Passeport ou carte d'identité CEDEAO valide"],cout_visa_fcfa:0,lieu_depot:"Aucun — libre circulation"}},
+    {id:"paris",nom:"Paris, France",description:"La Ville Lumière — Tour Eiffel, Louvre, Champs-Élysées, gastronomie.",prix_fcfa:850000,prix_euro:1295,duree:"7 jours / 6 nuits",disponibilite:true,prochains_departs:["2026-05-15","2026-06-01","2026-06-15","2026-07-01"],inclus:["Billet d'avion A/R Abidjan-Paris","Hébergement hôtel 3★","Transfert aéroport-hôtel","Petit-déjeuner quotidien","Assurance voyage"],non_inclus:["Visa Schengen","Repas déjeuner & dîner","Activités & excursions","Dépenses personnelles"],visa:{requis:true,type:"Visa Schengen Court Séjour",delai:"15 à 21 jours ouvrés",documents:["Passeport valide 6 mois minimum","2 photos d'identité récentes","Relevé bancaire 3 derniers mois","Attestation de travail","Réservation hôtel + billet","Assurance voyage 30 000€","Formulaire rempli"],cout_visa_fcfa:55000,lieu_depot:"VFS Global Abidjan, Cocody Danga"}},
+    {id:"dubai",nom:"Dubai, Émirats Arabes Unis",description:"Burj Khalifa, Dubai Mall, désert et plages paradisiaques. La ville du luxe.",prix_fcfa:750000,prix_euro:1143,duree:"5 jours / 4 nuits",disponibilite:true,prochains_departs:["2026-05-10","2026-05-25","2026-06-10","2026-07-05"],inclus:["Billet d'avion A/R Abidjan-Dubai","Hébergement hôtel 4★","Transfert aéroport-hôtel","Petit-déjeuner quotidien","Excursion désert en 4×4","Assurance voyage"],non_inclus:["Visa (facilité par SMG)","Repas déjeuner & dîner","Shopping & dépenses personnelles"],visa:{requis:true,type:"Visa touristique 30 jours",delai:"3 à 5 jours ouvrés",documents:["Passeport valide 6 mois minimum","Photo d'identité couleur","Réservation hôtel","Billet retour"],cout_visa_fcfa:45000,lieu_depot:"En ligne via SMG (on s'occupe de tout)"}},
+    {id:"istanbul",nom:"Istanbul, Turquie",description:"Carrefour Europe-Asie — mosquées, Grand Bazar, cuisine turque exceptionnelle.",prix_fcfa:650000,prix_euro:991,duree:"6 jours / 5 nuits",disponibilite:true,prochains_departs:["2026-05-20","2026-06-05","2026-06-20","2026-07-10"],inclus:["Billet d'avion A/R Abidjan-Istanbul","Hébergement hôtel 3★","Transfert aéroport-hôtel","Petit-déjeuner turc quotidien","Visite guidée Sainte-Sophie + Mosquée Bleue","Assurance voyage"],non_inclus:["E-Visa","Repas déjeuner & dîner","Croisière Bosphore (option 35 000 FCFA)","Dépenses personnelles"],visa:{requis:true,type:"E-Visa touristique",delai:"24 à 48 heures",documents:["Passeport valide 6 mois minimum","Carte bancaire pour paiement en ligne"],cout_visa_fcfa:30000,lieu_depot:"En ligne sur evisa.gov.tr"}},
+    {id:"marrakech",nom:"Marrakech, Maroc",description:"La ville rouge — souks colorés, palais, jardins et cuisine marocaine épicée.",prix_fcfa:550000,prix_euro:838,duree:"5 jours / 4 nuits",disponibilite:true,prochains_departs:["2026-05-08","2026-05-22","2026-06-12","2026-07-03"],inclus:["Billet d'avion A/R Abidjan-Marrakech","Hébergement en riad traditionnel","Transfert aéroport-riad","Petit-déjeuner marocain quotidien","Visite guidée de la Médina","Assurance voyage"],non_inclus:["Repas déjeuner & dîner","Excursion désert Merzouga (option 120 000 FCFA)","Dépenses personnelles"],visa:{requis:false,type:"Exemption de visa",delai:"Aucun",documents:["Passeport valide 6 mois minimum","Billet retour"],cout_visa_fcfa:0,lieu_depot:"Aucun — pas de visa pour les Ivoiriens (90j max)"}},
+    {id:"johannesburg",nom:"Johannesburg, Afrique du Sud",description:"Soweto, Apartheid Museum, safaris et vignobles. L'Afrique dans toute sa diversité.",prix_fcfa:900000,prix_euro:1372,duree:"7 jours / 6 nuits",disponibilite:true,prochains_departs:["2026-06-01","2026-06-20","2026-07-15"],inclus:["Billet d'avion A/R Abidjan-Johannesburg","Hébergement hôtel 3★","Transfert aéroport-hôtel","Petit-déjeuner quotidien","Visite Soweto + Apartheid Museum","Assurance voyage"],non_inclus:["Visa","Safari Kruger Park (option 250 000 FCFA)","Repas déjeuner & dîner","Dépenses personnelles"],visa:{requis:true,type:"Visa touristique",delai:"5 à 10 jours ouvrés",documents:["Passeport valide 6 mois minimum (2 pages vierges)","2 photos d'identité","Relevé bancaire 3 derniers mois","Réservation hôtel + billet retour","Lettre d'invitation ou itinéraire","Preuve de fonds suffisants"],cout_visa_fcfa:50000,lieu_depot:"Ambassade d'Afrique du Sud, Abidjan Cocody"}},
+    {id:"new_york",nom:"New York, États-Unis",description:"Times Square, Statue de la Liberté, Central Park et Broadway. La ville qui ne dort jamais.",prix_fcfa:1200000,prix_euro:1829,duree:"8 jours / 7 nuits",disponibilite:true,prochains_departs:["2026-06-15","2026-07-01","2026-08-01"],inclus:["Billet d'avion A/R Abidjan-New York","Hébergement hôtel 3★ Manhattan","Transfert aéroport-hôtel","Petit-déjeuner quotidien","City pass 3 attractions incluses","Assurance voyage"],non_inclus:["Visa B1/B2","Repas déjeuner & dîner","Activités supplémentaires","Dépenses personnelles"],visa:{requis:true,type:"Visa B1/B2 touristique",delai:"30 à 60 jours (entretien ambassade obligatoire)",documents:["Passeport valide 6 mois minimum","Formulaire DS-160 en ligne","Photo aux normes US (5×5 cm)","Relevés bancaires 6 derniers mois","Attestation de travail","Preuve d'attaches au pays","Paiement frais en ligne"],cout_visa_fcfa:105000,lieu_depot:"Ambassade des États-Unis, Abidjan Riviera"}},
+    {id:"bangkok",nom:"Bangkok, Thaïlande",description:"Temples dorés, street food légendaire, plages et îles paradisiaques. Le pays du sourire.",prix_fcfa:950000,prix_euro:1448,duree:"8 jours / 7 nuits",disponibilite:true,prochains_departs:["2026-06-10","2026-07-05","2026-08-10"],inclus:["Billet d'avion A/R Abidjan-Bangkok","Hébergement hôtel 4★","Transfert aéroport-hôtel","Petit-déjeuner quotidien","Visite temples Wat Pho + Wat Arun","Excursion marché flottant","Assurance voyage"],non_inclus:["E-Visa ou visa à l'arrivée","Repas déjeuner & dîner","Extension plages Phuket/Koh Samui (option 200 000 FCFA)","Dépenses personnelles"],visa:{requis:true,type:"E-Visa ou Visa on arrival",delai:"3 à 7 jours pour le e-Visa",documents:["Passeport valide 6 mois minimum","Photo d'identité récente","Billet retour","Preuve d'hébergement","Preuve de fonds (20 000 THB)"],cout_visa_fcfa:20000,lieu_depot:"En ligne ou à l'arrivée à Bangkok"}}
+  ],
+  faq:{
+    bagages:{reponse:"En général vous avez droit à :\n- *1 bagage cabine* : 7-10 kg (55×35×25 cm)\n- *1 bagage soute* : 23 kg\n\nLe poids exact dépend de la compagnie aérienne. SMG vous communiquera les détails avec votre billet."},
+    assurance:{reponse:"Oui, une *assurance voyage de base* est incluse dans tous nos forfaits. Elle couvre :\n- Frais médicaux à l'étranger\n- Rapatriement sanitaire\n- Perte de bagages\n\nPour une couverture premium (annulation, retard), contactez un conseiller SMG."},
+    annulation:{reponse:"Conditions d'annulation SMG :\n- *Plus de 30 jours avant le départ* : remboursement à 80%\n- *15 à 30 jours avant* : remboursement à 50%\n- *Moins de 15 jours* : aucun remboursement\n\nContactez-nous le plus tôt possible."},
+    paiement:{reponse:"SMG accepte plusieurs modes de paiement :\n- *Mobile Money* : Orange Money, MTN Money, Moov Money, Wave\n- *Virement bancaire*\n- *Espèces* dans nos bureaux (47, rue Fleming, Zone 4, Abidjan)\n- *Paiement en 2 ou 3 fois* possible (nous consulter)"}
+  }
+};
+
+// ============================================================
+// DONNÉES — connaissances.json embarqué
+// ============================================================
+const CONNAISSANCES = {
+  destinations:{
+    paris:{meteo:{meilleure_periode:"Avril à octobre",temperatures:"5°C en hiver, 25°C en été",detail:"Printemps (avril-juin) : idéal, 15-22°C. Été (juillet-août) : chaud, 25-35°C. Automne (sept-oct) : agréable, 12-20°C. Hiver (nov-mars) : froid, 3-8°C."},monnaie:{devise:"Euro (EUR)",taux_fcfa:"1 EUR = 656 FCFA (taux fixe)",conseil:"Changez vos FCFA en euros avant de partir ou retirez aux distributeurs. Cartes Visa/Mastercard acceptées partout."},decalage_horaire:"Paris est en avance de 0 à +1h sur Abidjan (heure d'été/hiver).",langue:"Français — aucune barrière de langue pour les Ivoiriens !",electricite:"Prises de type C/E, 230V. Pas besoin d'adaptateur si vous avez des prises européennes.",sante:{vaccins:"Aucun vaccin obligatoire. Vaccin fièvre jaune recommandé (souvent demandé à l'embarquement).",conseils:"Souscrivez une assurance santé voyage. Les soins médicaux en France sont chers sans assurance."},securite:"Paris est globalement sûre. Attention aux pickpockets dans le métro et les zones touristiques (Tour Eiffel, Champs-Élysées). Gardez vos objets de valeur en lieu sûr.",culture:"Les Français apprécient la politesse : toujours dire 'Bonjour' en entrant dans un commerce. Pourboire non obligatoire mais apprécié (2-5 euros).",transport_local:"Métro (2€ le ticket), bus, RER. Pass Navigo semaine (30€) pour voyages illimités. Uber et taxis aussi disponibles.",nourriture:{budget_repas:"15-25€ en restaurant moyen. 8-12€ pour un sandwich/fast-food.",specialites:"Croissant, baguette, fromages, coq au vin, crème brûlée.",halal:"Nombreux restaurants halal, surtout dans les 10ᵉ, 11ᵉ et 18ᵉ arrondissements."},quoi_emporter:"Vêtements selon la saison, parapluie, chaussures de marche confortables, copie de votre visa et assurance.",compagnies_aeriennes:"Air France (direct), Ethiopian Airlines (escale Addis-Abeba), Turkish Airlines (escale Istanbul). Durée directe : environ 6h30.",a_voir:"Tour Eiffel, Louvre, Notre-Dame, Champs-Élysées, Montmartre, Versailles, croisière sur la Seine.",sim_internet:"Carte SIM prépayée à l'aéroport (Free, Orange, SFR) pour 10-20€ avec data. Wi-Fi gratuit dans la plupart des hôtels et cafés.",urgences:"SAMU (médical) : 15 | Police : 17 | Pompiers : 18 | Numéro européen : 112"},
+    dubai:{meteo:{meilleure_periode:"Novembre à mars",temperatures:"20-30°C en hiver, 40-50°C en été",detail:"Hiver (nov-mars) : agréable, 20-30°C, idéal. Été (avril-oct) : très chaud, 38-50°C. Ramadan : horaires restaurants modifiés."},monnaie:{devise:"Dirham des Émirats (AED)",taux_fcfa:"1 AED ≈ 178 FCFA",conseil:"Le dollar US est aussi accepté. Cartes bancaires acceptées partout. Distributeurs dans les malls."},decalage_horaire:"Dubai est en avance de +4h sur Abidjan.",langue:"Arabe (officiel) et anglais (très répandu). Vous pouvez vous débrouiller en anglais partout.",electricite:"Prises de type G (britannique), 220V. Adaptateur nécessaire !",sante:{vaccins:"Aucun vaccin obligatoire. Vaccin fièvre jaune recommandé.",conseils:"Hydratez-vous beaucoup (chaleur extrême). Crème solaire indispensable."},securite:"Dubai est l'une des villes les plus sûres au monde. Criminalité très faible. Respectez les lois locales.",culture:"Pays musulman : respectez le Ramadan. Tenue correcte dans les lieux publics. Pourboire 10-15% apprécié.",transport_local:"Métro (2-6 AED), taxis très abordables, Uber/Careem disponibles.",nourriture:{budget_repas:"50-100 AED (9 000-18 000 FCFA) en restaurant. 20-35 AED en fast-food.",specialites:"Shawarma, hummus, machboos, dattes, café arabe.",halal:"Tout est halal à Dubai !"},quoi_emporter:"Vêtements légers mais couvrants, crème solaire, adaptateur électrique UK, maillot de bain.",compagnies_aeriennes:"Emirates (direct), Ethiopian Airlines (escale), flydubai. Durée directe : ~7h.",a_voir:"Burj Khalifa, Dubai Mall, Palm Jumeirah, Desert Safari, Dubai Marina, Gold Souk, Miracle Garden.",sim_internet:"Carte SIM touriste à l'aéroport (Etisalat, du) pour 50-100 AED avec data.",urgences:"Police : 999 | Ambulance : 998 | Pompiers : 997"},
+    istanbul:{meteo:{meilleure_periode:"Avril à juin et septembre à novembre",temperatures:"5°C en hiver, 30°C en été",detail:"Printemps (avr-juin) : idéal, 15-25°C. Été (juil-août) : chaud et humide, 28-35°C. Automne (sept-nov) : agréable. Hiver : froid, neige possible."},monnaie:{devise:"Livre turque (TRY)",taux_fcfa:"1 TRY ≈ 18 FCFA",conseil:"La livre turque fluctue beaucoup. Changez sur place pour un meilleur taux."},decalage_horaire:"Istanbul est en avance de +3h sur Abidjan.",langue:"Turc. L'anglais est parlé dans les zones touristiques.",electricite:"Prises de type C/F (européennes), 220V. Pas besoin d'adaptateur.",sante:{vaccins:"Aucun vaccin obligatoire. Fièvre jaune recommandée.",conseils:"L'eau du robinet n'est pas toujours potable."},securite:"Istanbul est globalement sûre. Attention aux arnaques au Grand Bazar.",culture:"Pays musulman laïque. Retirez vos chaussures dans les mosquées, couvrez épaules et genoux.",transport_local:"Istanbulkart pour métro, tramway, bus et ferry. Taxis et Uber disponibles.",nourriture:{budget_repas:"80-200 TRY en restaurant. 30-60 TRY en street food.",specialites:"Kebab, baklava, simit, lahmacun, çay, café turc.",halal:"La grande majorité des restaurants sont halal."},quoi_emporter:"Chaussures confortables, foulard pour les mosquées, parapluie.",compagnies_aeriennes:"Turkish Airlines (direct Abidjan-Istanbul). Durée directe : ~7h.",a_voir:"Sainte-Sophie, Mosquée Bleue, Grand Bazar, Palais de Topkapi, Bosphore, Tour de Galata.",sim_internet:"Carte SIM touriste (Turkcell) à l'aéroport pour 20-30€.",urgences:"Police : 155 | Ambulance : 112 | Pompiers : 110"},
+    marrakech:{meteo:{meilleure_periode:"Mars à mai et septembre à novembre",temperatures:"10°C en hiver, 40°C en été",detail:"Printemps (mars-mai) : idéal, 20-28°C. Été : très chaud, 35-45°C. Automne (sept-nov) : agréable. Hiver : doux le jour, frais la nuit."},monnaie:{devise:"Dirham marocain (MAD)",taux_fcfa:"1 MAD ≈ 65 FCFA",conseil:"Changez dans les bureaux de change en ville. Gardez du liquide pour les souks."},decalage_horaire:"Marrakech est à la même heure qu'Abidjan.",langue:"Arabe et français ! Les Ivoiriens se sentiront à l'aise.",electricite:"Prises de type C/E, 220V. Pas besoin d'adaptateur.",sante:{vaccins:"Aucun vaccin obligatoire. Fièvre jaune recommandée.",conseils:"Évitez l'eau du robinet. Attention aux coups de soleil en été."},securite:"Marrakech est sûre. Attention aux faux guides dans la Médina. Négociez toujours dans les souks.",culture:"Pays musulman accueillant. Le marchandage fait partie de la culture — c'est un jeu !",transport_local:"Petits taxis (10-30 MAD en ville), calèches, bus.",nourriture:{budget_repas:"50-120 MAD (3 250-7 800 FCFA) en restaurant. 20-40 MAD en street food.",specialites:"Tajine, couscous, pastilla, thé à la menthe, harira.",halal:"Tout est halal au Maroc."},quoi_emporter:"Vêtements légers et couvrants, crème solaire, chapeau, chaussures confortables.",compagnies_aeriennes:"Royal Air Maroc (direct ou via Casablanca). Durée : ~5h avec escale.",a_voir:"Place Jemaa el-Fna, Jardin Majorelle, Palais Bahia, souks de la Médina, excursion Atlas.",sim_internet:"Carte SIM (Maroc Telecom, Inwi) à 30-50 MAD avec data.",urgences:"Police : 19 | Ambulance : 15 | Gendarmerie : 177"},
+    dakar:{meteo:{meilleure_periode:"Novembre à mai (saison sèche)",temperatures:"20-35°C toute l'année",detail:"Saison sèche (nov-mai) : agréable, 20-30°C. Saison des pluies (juin-oct) : chaud et humide, pluies fréquentes."},monnaie:{devise:"Franc CFA (XOF) — même monnaie qu'en Côte d'Ivoire !",taux_fcfa:"Pas de change nécessaire — c'est la même monnaie !",conseil:"Aucun change à faire. Vos billets FCFA sont valables au Sénégal."},decalage_horaire:"Même fuseau horaire qu'Abidjan (GMT+0).",langue:"Français (officiel) et wolof. Aucune barrière de langue !",electricite:"Prises de type C (européennes), 230V.",sante:{vaccins:"Fièvre jaune obligatoire (certificat demandé). Antipaludisme recommandé.",conseils:"Protection anti-moustiques recommandée. Buvez de l'eau en bouteille."},securite:"Dakar est une ville sûre et accueillante. La Teranga (hospitalité sénégalaise) est réelle !",culture:"Les Sénégalais sont très accueillants. La Teranga est sacrée. On vous invitera sûrement à prendre le thé (attaya).",transport_local:"Taxis jaune-noir (négociez avant de monter), bus Dakar Dem Dikk, TER pour l'aéroport.",nourriture:{budget_repas:"2 000-5 000 FCFA en restaurant. 500-1 500 FCFA en gargote.",specialites:"Thiéboudiène, yassa poulet, mafé, bissap, café Touba.",halal:"Le Sénégal est à 95% musulman — tout est halal."},quoi_emporter:"Vêtements légers, crème solaire, anti-moustiques, chapeau.",compagnies_aeriennes:"Air Sénégal (direct Abidjan-Dakar), ASKY Airlines. Durée directe : ~2h30.",a_voir:"Île de Gorée, Lac Rose, Monument de la Renaissance, plage de Ngor, Saly.",sim_internet:"Carte SIM Orange/Free Sénégal à 1 000-3 000 FCFA avec data.",urgences:"Police : 17 | SAMU : 1515 | Pompiers : 18"},
+    johannesburg:{meteo:{meilleure_periode:"Mai à septembre (hiver austral, saison sèche)",temperatures:"5-15°C en hiver, 20-30°C en été",detail:"Attention : les saisons sont inversées ! Hiver (mai-sept) : sec et frais, idéal pour les safaris."},monnaie:{devise:"Rand sud-africain (ZAR)",taux_fcfa:"1 ZAR ≈ 36 FCFA",conseil:"Changez sur place dans les bureaux de change. Cartes Visa/Mastercard largement acceptées."},decalage_horaire:"Johannesburg est en avance de +2h sur Abidjan.",langue:"L'anglais est la langue du tourisme.",electricite:"Prises de type M (3 grosses broches rondes), 230V. Adaptateur obligatoire !",sante:{vaccins:"Fièvre jaune obligatoire (certificat demandé). Antipaludisme recommandé pour le Kruger.",conseils:"Protection anti-moustiques pour les safaris. Assurance santé obligatoire."},securite:"Joburg nécessite des précautions : évitez de marcher seul la nuit, privilégiez Uber. Les zones touristiques (Sandton, Rosebank) sont sûres.",culture:"L'Afrique du Sud est la 'nation arc-en-ciel'. Histoire riche avec l'apartheid. Pourboire 10-15% attendu.",transport_local:"Uber (très abordable et sûr), Gautrain (train rapide aéroport-centre).",nourriture:{budget_repas:"100-250 ZAR (3 600-9 000 FCFA) en restaurant.",specialites:"Braai (barbecue), biltong, bobotie, pap et chakalaka.",halal:"Restaurants halal surtout dans les quartiers de Fordsburg et Mayfair."},quoi_emporter:"Vêtements chauds si hiver austral, jumelles pour safari, adaptateur électrique type M.",compagnies_aeriennes:"Ethiopian Airlines (escale Addis-Abeba), Kenya Airways (escale Nairobi). Durée : 8-12h.",a_voir:"Musée de l'Apartheid, Soweto, Constitution Hill, Kruger National Park (5h de route).",sim_internet:"Carte SIM (Vodacom, MTN) à l'aéroport pour 50-100 ZAR.",urgences:"Police : 10111 | Ambulance : 10177"},
+    new_york:{meteo:{meilleure_periode:"Avril à juin et septembre à novembre",temperatures:"-5°C en hiver, 30°C en été",detail:"Printemps (avr-juin) : agréable, 12-25°C. Été (juil-août) : chaud et humide. Automne (sept-nov) : magnifique avec feuilles colorées. Hiver : très froid avec neige."},monnaie:{devise:"Dollar américain (USD)",taux_fcfa:"1 USD ≈ 600 FCFA",conseil:"Cartes acceptées absolument partout. Pourboire obligatoire 15-20%."},decalage_horaire:"New York est en retard de -5h sur Abidjan.",langue:"Anglais. Un niveau basique est nécessaire.",electricite:"Prises de type A/B (américaines, 2 broches plates), 120V. Adaptateur obligatoire !",sante:{vaccins:"Aucun vaccin obligatoire.",conseils:"Les soins médicaux aux USA sont extrêmement chers. Assurance voyage INDISPENSABLE."},securite:"New York est devenue très sûre. Précautions normales dans le métro tard le soir.",culture:"Ville cosmopolite. Pourboire OBLIGATOIRE : 15-20% au restaurant, 1-2$ par boisson au bar.",transport_local:"MetroCard (2,90$/trajet, pass 7 jours à 34$), bus, Uber/Lyft, taxi jaune. Métro 24h/24.",nourriture:{budget_repas:"15-30 USD (9 000-18 000 FCFA) en restaurant. 8-12 USD en fast-food.",specialites:"Pizza new-yorkaise, bagel, hot-dog, cheesecake, hamburger.",halal:"Très nombreux restaurants halal et food trucks halal (Halal Guys célèbre)."},quoi_emporter:"Vêtements adaptés à la saison (très chaud pour l'hiver !), chaussures de marche, adaptateur électrique US.",compagnies_aeriennes:"Pas de vol direct depuis Abidjan. Air France (via Paris), Ethiopian Airlines (via Addis-Abeba). Durée : 12-18h.",a_voir:"Statue de la Liberté, Times Square, Central Park, Empire State Building, Brooklyn Bridge, 9/11 Memorial, Broadway.",sim_internet:"Carte SIM prépayée (T-Mobile, AT&T) à l'aéroport pour 30-50 USD.",urgences:"Police/Pompiers/Ambulance : 911"},
+    bangkok:{meteo:{meilleure_periode:"Novembre à février (saison fraîche)",temperatures:"25-35°C toute l'année",detail:"Saison fraîche (nov-fév) : idéal, 25-32°C. Saison chaude (mars-mai) : très chaud, 33-40°C. Saison des pluies (juin-oct) : averses quotidiennes mais courtes."},monnaie:{devise:"Baht thaïlandais (THB)",taux_fcfa:"1 THB ≈ 18 FCFA",conseil:"Changez sur place dans les bureaux de change (Super Rich recommandé). Évitez le change à l'aéroport."},decalage_horaire:"Bangkok est en avance de +7h sur Abidjan.",langue:"Thaï. L'anglais est parlé dans les zones touristiques.",electricite:"Prises de type A/B/C, 220V. La plupart des prises européennes fonctionnent.",sante:{vaccins:"Hépatite A, typhoïde recommandés. Fièvre jaune : certificat parfois demandé.",conseils:"Buvez uniquement de l'eau en bouteille. Anti-moustiques recommandé (dengue)."},securite:"Bangkok est sûre. Attention aux arnaques classiques : tuk-tuk dans des magasins, faux moines.",culture:"Pays bouddhiste. Retirez vos chaussures dans les temples. Le roi est très respecté.",transport_local:"BTS Skytrain et MRT Métro (20-60 THB), Grab (équivalent Uber), bateaux sur les canaux.",nourriture:{budget_repas:"100-400 THB (1 800-7 200 FCFA) en restaurant. 40-80 THB en street food.",specialites:"Pad Thai, som tam, tom yum, massaman curry, mango sticky rice.",halal:"Restaurants halal disponibles, surtout dans Sukhumvit Soi 3 (Soi Arab)."},quoi_emporter:"Vêtements légers en coton, crème solaire, anti-moustiques, foulard pour les temples.",compagnies_aeriennes:"Ethiopian Airlines (escale Addis-Abeba), Turkish Airlines (escale Istanbul). Durée : 14-20h.",a_voir:"Wat Pho, Wat Arun, Grand Palais, Chatuchak Weekend Market, Chinatown, marché flottant.",sim_internet:"Carte SIM touriste (AIS) à l'aéroport pour 200-500 THB avec data illimité.",urgences:"Police touriste : 1155 | Ambulance : 1669 | Police : 191"},
+    cap_vert:{meteo:{meilleure_periode:"Novembre à juin (saison fraîche et sèche)",temperatures:"22-30°C toute l'année",detail:"Saison fraîche (nov-juin) : idéal, 22-28°C, brise agréable. Saison chaude (juil-oct) : 28-33°C, possibilité de vent de sable (harmattan)."},monnaie:{devise:"Escudo cap-verdien (CVE)",taux_fcfa:"1 CVE ≈ 6 FCFA",conseil:"Changez sur place ou retirez aux distributeurs. Les euros sont aussi acceptés dans les hôtels et commerces touristiques."},decalage_horaire:"Cap-Vert est en retard de -1h sur Abidjan.",langue:"Portugais et créole cap-verdien. L'anglais et le français sont compris dans les zones touristiques.",electricite:"Prises de type C/F (européennes), 220V.",sante:{vaccins:"Aucun vaccin obligatoire. Fièvre jaune recommandée pour les voyageurs venant d'Afrique.",conseils:"Buvez de l'eau en bouteille. Crème solaire indispensable (soleil intense)."},securite:"Le Cap-Vert est l'un des pays les plus sûrs d'Afrique. Criminalité très faible.",culture:"Culture métissée africaine et portugaise. Musique morna (Cesária Évora). Accueil très chaleureux.",transport_local:"Taxis collectifs (aluguer), ferrys inter-îles, vols intérieurs TACV.",nourriture:{budget_repas:"800-2 000 FCFA en restaurant local. Poissons et fruits de mer frais excellents.",specialites:"Cachupa (plat national : ragoût de maïs et légumineuses), grillades de poisson, grogue (alcool local).",halal:"Peu de restaurants halal — mangez du poisson, c'est excellent et abondant."},quoi_emporter:"Vêtements légers, lunettes de soleil, crème solaire haute protection, maillot de bain, chaussures de marche.",compagnies_aeriennes:"TACV (direct Abidjan-Praia), connections via Lisbonne (TAP), Dakar ou Casablanca. Durée : ~3-5h selon connexion.",a_voir:"Cidade Velha (patrimoine UNESCO), Tarrafal et sa plage, ville de Praia, île de Santo Antão (randonnée), île de Sal (plages paradisiaques).",sim_internet:"Carte SIM (CVMóvel, Unitel T+) à l'aéroport pour 500-1000 CVE avec data.",urgences:"Police : 132 | Ambulance : 130 | Pompiers : 131"}
+  }
+};
+
+// ============================================================
+// LOGIQUE BOT — portée en JavaScript pur
+// ============================================================
+const contextes = {};
+const incomprehensions = {};
+
+function getCtx(uid){
+  if(!contextes[uid]) contextes[uid]={derniereDestination:null,derniereAction:null,historique:[],donneesCollectees:{},reservationEtape:null};
+  return contextes[uid];
+}
+
+function detecterIntention(message){
+  const m=message.toLowerCase().trim();
+  if(/^[0-6]$/.test(m)){
+    const map={1:'destinations',2:'prix',3:'reservation',4:'suivi',5:'faq_menu',6:'escalade_directe',0:'escalade_directe'};
+    return map[m];
+  }
+  if(/^(menu|aide|help|accueil|retour)$/i.test(m)) return 'salutation';
+  if(/^(bonjour|salut|bonsoir|hello|hi|hey|coucou|yo|bjr|slt)/i.test(m)) return 'salutation';
+  if(m.includes('disponib')||m.includes('prochaine date')||m.includes('prochain depart')||m.includes('prochain départ')||m.includes('date de départ')||m.includes('date de depart')) return 'disponibilite';
+  if(m.includes('destination')||m.includes('voyage')||m.includes('voyager')||m.includes('ou aller')||m.includes('où aller')||m.includes('proposez')||m.includes('liste')) return 'destinations';
+  if(m.includes('prix')||m.includes('tarif')||m.includes('coût')||m.includes('cout')||m.includes('combien')||m.includes('fcfa')||m.includes('budget')||m.includes('promotion')) return 'prix';
+  if(m.includes('réserv')||m.includes('reserv')||m.includes('book')||m.includes('je veux partir')||m.includes('je voudrais partir')||m.includes('j\'aimerais')||m.includes('je veux aller')||m.includes('payer')||m.includes('paiement')) return 'reservation';
+  if(m.includes('dossier')||m.includes('suivi')||m.includes('statut')||m.includes('confirmation')) return 'suivi';
+  if(m.includes('visa')||m.includes('passeport')||m.includes('document')||m.includes('papier')||m.includes('ambassade')) return 'faq_visa';
+  if(m.includes('bagage')||m.includes('valise')||m.includes('kilo')) return 'faq_bagages';
+  if(m.includes('assurance')||m.includes('couverture')||m.includes('médical')||m.includes('medical')) return 'faq_assurance';
+  if(m.includes('annul')||m.includes('rembours')||m.includes('modifier')||m.includes('changer')) return 'faq_annulation';
+  if(m.includes('orange money')||m.includes('mtn')||m.includes('moov')||m.includes('wave')||m.includes('mobile money')||m.includes('comment payer')) return 'faq_paiement';
+  if(/^faq$/i.test(m)) return 'faq_menu';
+  if(m.includes('météo')||m.includes('meteo')||m.includes('climat')||m.includes('température')||m.includes('chaud')||m.includes('froid')||m.includes('pluie')||m.includes('meilleure période')) return 'info_meteo';
+  if(m.includes('monnaie')||m.includes('devise')||m.includes('taux')||m.includes('dollar')||m.includes('argent sur place')||m.includes('carte bancaire')) return 'info_monnaie';
+  if(m.includes('décalage')||m.includes('decalage')||m.includes('fuseau')||m.includes('quelle heure')) return 'info_horaire';
+  if(m.includes('langue')||m.includes('parle')||m.includes('anglais')||m.includes('communiquer')) return 'info_langue';
+  if(m.includes('vaccin')||m.includes('santé')||m.includes('sante')||m.includes('médecin')||m.includes('maladie')||m.includes('paludisme')) return 'info_sante';
+  if(m.includes('sécurité')||m.includes('securite')||m.includes('danger')||m.includes('sûr')||m.includes('risque')||m.includes('arnaque')) return 'info_securite';
+  if(m.includes('culture')||m.includes('coutume')||m.includes('religion')||m.includes('pourboire')||m.includes('ramadan')) return 'info_culture';
+  if(m.includes('manger')||m.includes('nourriture')||m.includes('restaurant')||m.includes('cuisine')||m.includes('halal')||m.includes('repas')) return 'info_nourriture';
+  if(m.includes('transport')||m.includes('métro')||m.includes('taxi')||m.includes('uber')||m.includes('se déplacer')) return 'info_transport';
+  if(m.includes('emporter')||m.includes('préparer')||m.includes('valise')||m.includes('check-list')) return 'info_emporter';
+  if(m.includes('compagnie')||m.includes('avion')||m.includes('vol')||m.includes('airline')||m.includes('escale')||m.includes('durée')) return 'info_compagnies';
+  if(m.includes('voir')||m.includes('visiter')||m.includes('activité')||m.includes('activite')||m.includes('monument')||m.includes('incontournable')) return 'info_activites';
+  if(m.includes('internet')||m.includes('wifi')||m.includes('sim')||m.includes('réseau')) return 'info_internet';
+  if(m.includes('urgence')||m.includes('police')||m.includes('ambulance')||m.includes('secours')||m.includes('sos')) return 'info_urgences';
+  if(m.includes('prise')||m.includes('électricité')||m.includes('adaptateur')||m.includes('chargeur')) return 'info_electricite';
+  if(m.includes('humain')||m.includes('agent')||m.includes('conseiller')||m.includes('parler à')) return 'escalade_directe';
+  if(/^(merci|thanks|thank you|super|parfait|ok merci)/i.test(m)) return 'remerciement';
+  if(/^(et |et pour |et le |et la |c'est )/.test(m)) return 'reference_implicite';
+  return 'question_generale';
+}
+
+function extraireDestination(message){
+  const m=message.toLowerCase();
+  const dests=[
+    {id:'cap_vert',mots:['cap-vert','cap vert','capvert','praia','tarrafal','cidade velha','santiago']},
+    {id:'dakar',mots:['dakar','sénégal','senegal','saly','lac rose','goree','gorée']},
+    {id:'paris',mots:['paris','france']},
+    {id:'dubai',mots:['dubai','dubaï','emirat','émirat']},
+    {id:'istanbul',mots:['istanbul','turquie']},
+    {id:'marrakech',mots:['marrakech','maroc','marocain']},
+    {id:'johannesburg',mots:['johannesburg','afrique du sud','joburg']},
+    {id:'new_york',mots:['new york','nyc','états-unis','etats-unis','usa','amérique']},
+    {id:'bangkok',mots:['bangkok','thailande','thaïlande']}
+  ];
+  for(const d of dests) for(const mot of d.mots) if(m.includes(mot)) return d.id;
+  return null;
+}
+
+function fmtDate(s){
+  const mois=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  const p=s.split('-');
+  return `${parseInt(p[2])} ${mois[parseInt(p[1])-1]} ${p[0]}`;
+}
+
+function salutation(){
+  return `*Bienvenue chez Sous Mon Gîte (SMG) !* ✈️🌍\n\n_Votre agence de voyage à Abidjan depuis 2017_\n_"Faire découvrir le monde aux Ivoiriens !"_\n\nJe suis votre assistant virtuel. Tapez un *chiffre* ou écrivez votre demande :\n\n1️⃣ *Destinations* — Découvrir où voyager\n2️⃣ *Prix* — Connaître nos tarifs\n3️⃣ *Réserver* — Démarrer une réservation\n4️⃣ *Suivi dossier* — Suivre votre réservation\n5️⃣ *FAQ* — Visa, bagages, assurance\n0️⃣ *Conseiller* — Parler à un humain\n\nQue puis-je faire pour vous ? 😊`;
+}
+
+function miniMenu(){return `\n\n---\nTapez un chiffre ou votre demande. Répondez *menu* pour revoir les options.`;}
+
+function listeDestinations(){
+  let r=`*✈️ Nos destinations au départ d'Abidjan :*\n\n`;
+  for(const d of VOYAGES.destinations){
+    const ph=d.package_phare?'⭐ ':''
+    r+=`${ph}*${d.nom}*\n${d.duree} — à partir de *${d.prix_fcfa.toLocaleString('fr-FR')} FCFA* (${d.prix_euro}€)\n${d.disponibilite?'✅ Disponible':'❌ Complet'}\n\n`;
+  }
+  r+=`Pour en savoir plus, tapez le nom d'une destination !\nExemple : _"Prix Cap-Vert"_ ou _"Visa Paris"_`;
+  return r;
+}
+
+function listePrix(){
+  let r=`*💰 Tarifs SMG (par personne, tout compris) :*\n\n`;
+  const tri=[...VOYAGES.destinations].sort((a,b)=>a.prix_fcfa-b.prix_fcfa);
+  for(const d of tri) r+=`*${d.nom}*\n${d.duree} — *${d.prix_fcfa.toLocaleString('fr-FR')} FCFA* (${d.prix_euro}€)\n\n`;
+  r+=`Ces prix incluent : vol A/R, hôtel, transferts, petit-déjeuner et assurance.\n\nTapez le nom d'une destination pour plus de détails !`;
+  return r;
+}
+
+function prixDestination(id){
+  const d=VOYAGES.destinations.find(x=>x.id===id);
+  if(!d) return `Je n'ai pas trouvé cette destination. Tapez *1* pour voir toutes nos destinations.`;
+  let r=`*💰 ${d.nom} — Détail du tarif*\n\n*Prix :* ${d.prix_fcfa.toLocaleString('fr-FR')} FCFA (${d.prix_euro}€) par personne\n*Durée :* ${d.duree}\n\n*✅ Inclus :*\n`;
+  for(const i of d.inclus) r+=`- ${i}\n`;
+  r+=`\n*❌ Non inclus :*\n`;
+  for(const i of d.non_inclus) r+=`- ${i}\n`;
+  r+=`\n*📅 Prochains départs :*\n`;
+  for(const dt of d.prochains_departs) r+=`- ${fmtDate(dt)}\n`;
+  r+=`\nPour réserver, tapez *3* ou *"Réserver ${d.nom.split(',')[0]}"* !`;
+  return r;
+}
+
+function disponibiliteDestination(id){
+  const d=VOYAGES.destinations.find(x=>x.id===id);
+  if(!d) return `Je n'ai pas trouvé cette destination. Tapez *1* pour voir nos destinations.`;
+  let r=`*📅 Disponibilité — ${d.nom}*\n\n`;
+  if(!d.disponibilite){r+=`❌ Désolé, cette destination est *complète* pour le moment.\n\nContactez un conseiller SMG pour être mis sur liste d'attente. Tapez *0*.`;return r;}
+  r+=`✅ *Disponible !*\n\n*Prochains départs :*\n`;
+  for(const dt of d.prochains_departs) r+=`- ${fmtDate(dt)}\n`;
+  r+=`\n*Prix :* ${d.prix_fcfa.toLocaleString('fr-FR')} FCFA (${d.prix_euro}€) par personne\n*Durée :* ${d.duree}\n\n`;
+  r+=`⚠️ Prévoyez au minimum *2 semaines* pour l'organisation (billets, hôtel${d.visa.requis?', visa':''}).\n\nPour réserver, tapez *3* !`;
+  return r;
+}
+
+function disponibiliteGenerale(){
+  let r=`*📅 Disponibilités — Toutes nos destinations :*\n\n`;
+  for(const d of VOYAGES.destinations){
+    r+=d.disponibilite?`✅ *${d.nom}*\nProchain départ : ${fmtDate(d.prochains_departs[0])} — *${d.prix_fcfa.toLocaleString('fr-FR')} FCFA*\n\n`:`❌ *${d.nom}* — Complet\n\n`;
+  }
+  r+=`⚠️ Un départ nécessite au minimum *2 semaines* de préparation.\n\nTapez le nom d'une destination pour plus de détails !`;
+  return r;
+}
+
+function visaDestination(id){
+  const d=VOYAGES.destinations.find(x=>x.id===id);
+  if(!d) return visaGeneral();
+  const v=d.visa;
+  let r=`*🛂 Visa — ${d.nom}*\n\n`;
+  if(!v.requis){r+=`*Bonne nouvelle !* Aucun visa n'est requis pour les Ivoiriens. 🎉\n\n*Documents nécessaires :*\n`;}
+  else{r+=`*Type :* ${v.type}\n*Délai :* ${v.delai}\n*Coût :* ${v.cout_visa_fcfa.toLocaleString('fr-FR')} FCFA\n*Lieu de dépôt :* ${v.lieu_depot}\n\n*Documents requis :*\n`;}
+  for(const dc of v.documents) r+=`- ${dc}\n`;
+  r+=`\nSMG vous accompagne dans vos démarches de visa. Tapez *3* ou *"réserver"* pour commencer !`;
+  return r;
+}
+
+function visaGeneral(){
+  let r=`*🛂 Infos visa — Passeport ivoirien :*\n\n`;
+  const sans=VOYAGES.destinations.filter(d=>!d.visa.requis);
+  if(sans.length){r+=`*✅ Sans visa :*\n`;for(const d of sans)r+=`- ${d.nom}\n`;r+=`\n`;}
+  r+=`*📋 Visa requis :*\n`;
+  for(const d of VOYAGES.destinations.filter(x=>x.visa.requis)) r+=`- *${d.nom.split(',')[0]}* : ${d.visa.type} (${d.visa.delai}) — ${d.visa.cout_visa_fcfa.toLocaleString('fr-FR')} FCFA\n`;
+  r+=`\nPour les détails d'une destination, tapez _"Visa Paris"_ par exemple.\nSMG vous accompagne dans toutes vos démarches ! 💪`;
+  return r;
+}
+
+function infoDestination(id,type){
+  if(!id) return `Pour quelle destination souhaitez-vous cette information ?\n\n${VOYAGES.destinations.map(d=>`- *${d.nom.split(',')[0]}*`).join('\n')}\n\nExemple : _"Météo Dubai"_ ou _"Vaccins Bangkok"_`;
+  const info=CONNAISSANCES.destinations[id];
+  const dest=VOYAGES.destinations.find(d=>d.id===id);
+  const nom=dest?dest.nom:id;
+  if(!info) return `Je n'ai pas encore d'informations détaillées sur cette destination. Un conseiller SMG peut vous aider ! Tapez *0*.`;
+  switch(type){
+    case 'meteo': return `*🌤️ Météo — ${nom}*\n\n*Meilleure période :* ${info.meteo.meilleure_periode}\n*Températures :* ${info.meteo.temperatures}\n\n${info.meteo.detail}`;
+    case 'monnaie': return `*💱 Monnaie — ${nom}*\n\n*Devise :* ${info.monnaie.devise}\n*Taux :* ${info.monnaie.taux_fcfa}\n\n💡 ${info.monnaie.conseil}`;
+    case 'horaire': return `*🕐 Décalage horaire — ${nom}*\n\n${info.decalage_horaire}\n\nPensez à ajuster votre horloge en arrivant !`;
+    case 'langue': return `*🗣️ Langue — ${nom}*\n\n${info.langue}`;
+    case 'sante': return `*🏥 Santé & Vaccins — ${nom}*\n\n*Vaccins :* ${info.sante.vaccins}\n\n*Conseils :* ${info.sante.conseils}`;
+    case 'securite': return `*🔒 Sécurité — ${nom}*\n\n${info.securite}`;
+    case 'culture': return `*🎭 Culture & Coutumes — ${nom}*\n\n${info.culture}`;
+    case 'nourriture': return `*🍽️ Nourriture — ${nom}*\n\n*Budget repas :* ${info.nourriture.budget_repas}\n\n*Spécialités locales :* ${info.nourriture.specialites}\n\n*Halal :* ${info.nourriture.halal}`;
+    case 'transport': return `*🚕 Transport local — ${nom}*\n\n${info.transport_local}`;
+    case 'emporter': return `*🧳 Quoi emporter — ${nom}*\n\n${info.quoi_emporter}`;
+    case 'compagnies': return `*✈️ Compagnies aériennes — ${nom}*\n\n*Depuis Abidjan :* ${info.compagnies_aeriennes}`;
+    case 'activites': return `*📸 À voir / À faire — ${nom}*\n\n*Incontournables :* ${info.a_voir}`;
+    case 'internet': return `*📱 Internet & SIM — ${nom}*\n\n${info.sim_internet}`;
+    case 'urgences': return `*🆘 Numéros d'urgence — ${nom}*\n\n${info.urgences}`;
+    case 'electricite': return `*🔌 Électricité — ${nom}*\n\n${info.electricite}`;
+    default: return `Je n'ai pas cette information. Tapez *0* pour parler à un conseiller.`;
+  }
+}
+
+function reservation(id){
+  const destList=VOYAGES.destinations.map(d=>`- *${d.nom.split(',')[0]}* (${d.prix_fcfa.toLocaleString('fr-FR')} FCFA)`).join('\n');
+  if(id){
+    const d=VOYAGES.destinations.find(x=>x.id===id);
+    if(d) return `*📝 Réservation — ${d.nom}*\n\nSuper choix ! Pour finaliser votre réservation :\n\n1️⃣ *Date de départ* parmi :\n${d.prochains_departs.map(dt=>`   - ${fmtDate(dt)}`).join('\n')}\n\n2️⃣ *Nombre de voyageurs*\n3️⃣ *Votre nom complet*\n4️⃣ *Votre numéro de téléphone*\n\nEnvoyez ces infos et un conseiller SMG vous contactera sous *30 minutes* ! 😊`;
+  }
+  return `*📝 Réservation SMG*\n\nJe serais ravi de vous aider à réserver ! 😊\n\nPour quelle destination souhaitez-vous réserver ?\n\n${destList}\n\nTapez le nom de la destination !`;
+}
+
+function traiterEtapeReservation(msg,ctx){
+  const m=msg.toLowerCase().trim();
+  if(m==='menu'||m==='annuler'||m==='retour'||m==='0'){ctx.reservationEtape=null;ctx.donneesCollectees={};return salutation();}
+  switch(ctx.reservationEtape){
+    case 'destination':{
+      const id=extraireDestination(msg);
+      if(id){ctx.donneesCollectees.destination=id;ctx.derniereDestination=id;ctx.reservationEtape='date';
+        const d=VOYAGES.destinations.find(x=>x.id===id);
+        return `*📝 Réservation — ${d.nom}*\n\nSuper choix ! 🎉\n\n*Étape 1/4* — Quelle *date de départ* souhaitez-vous ?\n\nDates disponibles :\n${d.prochains_departs.map(dt=>`- ${fmtDate(dt)}`).join('\n')}\n\nTapez la date souhaitée ou *menu* pour annuler.`;}
+      return `Je n'ai pas trouvé cette destination. Tapez le nom parmi :\n${VOYAGES.destinations.map(d=>`- *${d.nom.split(',')[0]}*`).join('\n')}\n\nOu tapez *menu* pour annuler.`;
+    }
+    case 'date': ctx.donneesCollectees.date=msg.trim();ctx.reservationEtape='voyageurs';return `✅ Date notée : *${msg.trim()}*\n\nCombien de *voyageurs* participeront ? (ex: _2_)`;
+    case 'voyageurs': ctx.donneesCollectees.voyageurs=msg.trim();ctx.reservationEtape='nom';return `✅ *${msg.trim()} voyageur(s)* noté(s).\n\nQuel est votre *nom complet* ? (ex: _Kouassi Jean-Marc_)`;
+    case 'nom': ctx.donneesCollectees.nom=msg.trim();ctx.reservationEtape='telephone';return `✅ Merci *${msg.trim()}* !\n\nQuel est votre *numéro de téléphone* ? (ex: _+225 07 89 03 14_)\n\nSi c'est ce numéro, tapez *oui*.`;
+    case 'telephone':{
+      ctx.donneesCollectees.telephone=(m==='oui'||m==='o')?'Ce numéro WhatsApp':msg.trim();
+      ctx.reservationEtape=null;
+      const dc=ctx.donneesCollectees;
+      const d=VOYAGES.destinations.find(x=>x.id===dc.destination);
+      const total=d?d.prix_fcfa*(parseInt(dc.voyageurs)||1):0;
+      return `*✅ Récapitulatif de votre réservation :*\n\n*Destination :* ${d?d.nom:dc.destination}\n*Date de départ :* ${dc.date}\n*Nombre de voyageurs :* ${dc.voyageurs}\n*Nom :* ${dc.nom}\n*Téléphone :* ${dc.telephone}\n\n${d?`*Prix par personne :* ${d.prix_fcfa.toLocaleString('fr-FR')} FCFA\n*Prix total :* ${total.toLocaleString('fr-FR')} FCFA\n\n`:''}`+
+      `🎉 *Votre demande de réservation est enregistrée !*\n\nUn conseiller SMG vous contactera sous *30 minutes* pour :\n- Confirmer la disponibilité\n- Organiser le paiement\n- Répondre à vos questions\n\n📞 *+225 07 87 198 765*\n📧 *smgvoyages@gmail.com*\n\nMerci de votre confiance ! ✈️😊`;
+    }
+    default: ctx.reservationEtape=null;return null;
+  }
+}
+
+function traiterMessage(message,uid){
+  const ctx=getCtx(uid);
+  if(!incomprehensions[uid]) incomprehensions[uid]=0;
+  ctx.historique.push({role:'user',content:message});
+  if(ctx.historique.length>20) ctx.historique=ctx.historique.slice(-20);
+
+  if(ctx.reservationEtape){
+    const r=traiterEtapeReservation(message,ctx);
+    if(r){ctx.historique.push({role:'assistant',content:r});return r;}
+  }
+
+  let intention=detecterIntention(message);
+  const destMsg=extraireDestination(message);
+  let destId=destMsg||(ctx.derniereDestination||null);
+  if(destMsg) ctx.derniereDestination=destMsg;
+
+  if(intention==='reference_implicite'){
+    const m=message.toLowerCase();
+    if(m.includes('combien')||m.includes('prix')||m.includes('tarif')) intention='prix';
+    else if(m.includes('visa')||m.includes('document')) intention='faq_visa';
+    else if(m.includes('disponib')||m.includes('date')||m.includes('place')) intention='disponibilite';
+    else if(m.includes('réserv')||m.includes('reserv')) intention='reservation';
+    else intention=ctx.derniereAction||'question_generale';
+  }
+
+  let rep;
+  incomprehensions[uid]=0;
+
+  switch(intention){
+    case 'salutation': rep=salutation();break;
+    case 'destinations': ctx.derniereAction='destinations';rep=listeDestinations()+miniMenu();break;
+    case 'prix': ctx.derniereAction='prix';rep=(destId?prixDestination(destId):listePrix())+miniMenu();break;
+    case 'disponibilite': ctx.derniereAction='disponibilite';rep=(destId?disponibiliteDestination(destId):disponibiliteGenerale())+miniMenu();break;
+    case 'reservation':
+      ctx.derniereAction='reservation';
+      if(destId){ctx.donneesCollectees={destination:destId};ctx.reservationEtape='date';
+        const d=VOYAGES.destinations.find(x=>x.id===destId);
+        rep=`*📝 Réservation — ${d?d.nom:destId}*\n\nSuper choix ! Commençons la réservation étape par étape.\n\n*Étape 1/4* — Quelle *date de départ* souhaitez-vous ?\n\nDates disponibles :\n${d?d.prochains_departs.map(dt=>`- ${fmtDate(dt)}`).join('\n'):'À confirmer'}\n\nTapez la date souhaitée ou *menu* pour annuler.`;
+      }else{ctx.reservationEtape='destination';ctx.donneesCollectees={};rep=reservation(null)+miniMenu();}
+      break;
+    case 'suivi': ctx.derniereAction='suivi';rep=`*📋 Suivi de votre dossier*\n\nPour consulter l'état de votre réservation, envoyez-moi votre *numéro de dossier*.\n\nFormat : _SMG-XXXXX_\n\nSi vous n'avez pas votre numéro, tapez *0* pour parler à un conseiller.`+miniMenu();break;
+    case 'faq_menu': rep=`*❓ FAQ — Questions fréquentes*\n\nChoisissez un sujet :\n\n1️⃣ *Visa* — Infos visa par destination\n2️⃣ *Bagages* — Poids et dimensions autorisés\n3️⃣ *Assurance* — Couverture voyage\n4️⃣ *Annulation* — Conditions de remboursement\n5️⃣ *Paiement* — Modes de paiement acceptés\n\nTapez le sujet ou *menu* pour revenir.`;break;
+    case 'faq_visa': ctx.derniereAction='faq_visa';rep=(destId?visaDestination(destId):visaGeneral())+miniMenu();break;
+    case 'faq_bagages': rep=VOYAGES.faq.bagages.reponse+miniMenu();break;
+    case 'faq_assurance': rep=VOYAGES.faq.assurance.reponse+miniMenu();break;
+    case 'faq_annulation': rep=VOYAGES.faq.annulation.reponse+miniMenu();break;
+    case 'faq_paiement': rep=VOYAGES.faq.paiement.reponse+miniMenu();break;
+    case 'escalade_directe': rep=`*🤝 Transfert vers un conseiller SMG*\n\nUn conseiller vous contactera sous *30 minutes*. 😊\n\n📞 *+225 07 87 198 765*\n📧 *smgvoyages@gmail.com*\n📘 *SMG Agence de Voyage* (Facebook)\n📍 *47, rue Fleming, Zone 4, Abidjan*\n\nTapez *menu* pour revoir les options.`;break;
+    case 'remerciement': rep=`Avec plaisir ! 😊\n\nN'hésitez pas à revenir si vous avez d'autres questions. Tapez *menu* à tout moment !\nL'équipe SMG est là pour vous ! ✈️🌍`;break;
+    case 'info_meteo': rep=infoDestination(destId,'meteo')+miniMenu();break;
+    case 'info_monnaie': rep=infoDestination(destId,'monnaie')+miniMenu();break;
+    case 'info_horaire': rep=infoDestination(destId,'horaire')+miniMenu();break;
+    case 'info_langue': rep=infoDestination(destId,'langue')+miniMenu();break;
+    case 'info_sante': rep=infoDestination(destId,'sante')+miniMenu();break;
+    case 'info_securite': rep=infoDestination(destId,'securite')+miniMenu();break;
+    case 'info_culture': rep=infoDestination(destId,'culture')+miniMenu();break;
+    case 'info_nourriture': rep=infoDestination(destId,'nourriture')+miniMenu();break;
+    case 'info_transport': rep=infoDestination(destId,'transport')+miniMenu();break;
+    case 'info_emporter': rep=infoDestination(destId,'emporter')+miniMenu();break;
+    case 'info_compagnies': rep=infoDestination(destId,'compagnies')+miniMenu();break;
+    case 'info_activites': rep=infoDestination(destId,'activites')+miniMenu();break;
+    case 'info_internet': rep=infoDestination(destId,'internet')+miniMenu();break;
+    case 'info_urgences': rep=infoDestination(destId,'urgences')+miniMenu();break;
+    case 'info_electricite': rep=infoDestination(destId,'electricite')+miniMenu();break;
+    default:
+      incomprehensions[uid]++;
+      if(incomprehensions[uid]>=2){
+        incomprehensions[uid]=0;
+        rep=`Hmm, je ne suis pas sûr de comprendre votre demande. 🤔\n\nJe vous mets en relation avec un conseiller SMG !\n\n📞 *+225 07 87 198 765*\n📧 *smgvoyages@gmail.com*\n\nOu tapez *menu* pour revoir les options.`;
+      }else{
+        rep=`Je n'ai pas bien compris votre demande. 🤔\n\nVous pouvez taper un *chiffre* du menu ou écrire votre demande librement 😊\n\n1️⃣ Destinations  2️⃣ Prix  3️⃣ Réserver\n4️⃣ Suivi  5️⃣ FAQ  0️⃣ Conseiller\n\nOu tapez *menu*.`;
+      }
+      break;
+  }
+
+  ctx.historique.push({role:'assistant',content:rep});
+  return rep;
+}
+
+// ============================================================
+// UI
+// ============================================================
+const msgsEl=document.getElementById('msgs');
+const inpEl=document.getElementById('inp');
+const userId='user_'+Math.random().toString(36).slice(2,8);
+let waiting=false;
+
+document.getElementById('today').textContent=new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+
+inpEl.addEventListener('input',()=>{inpEl.style.height='auto';inpEl.style.height=Math.min(inpEl.scrollHeight,120)+'px';});
+inpEl.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
+
+function fmtWA(t){
+  return t
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*([^*\n]+)\*/g,'<strong>$1</strong>')
+    .replace(/_([^_\n]+)_/g,'<em>$1</em>')
+    .replace(/---/g,'<hr style="border:none;border-top:1px solid #e0e0e0;margin:6px 0">')
+    .replace(/\n/g,'<br>');
+}
+
+function nowTime(){return new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}
+
+function addMsg(text,role){
+  const d=document.createElement('div');
+  d.className='row '+role;
+  d.innerHTML=`<div class="bub">${fmtWA(text)}<div class="meta"><span class="ts">${nowTime()}</span>${role==='user'?'<span class="ck">✓✓</span>':''}</div></div>`;
+  msgsEl.appendChild(d);
+  msgsEl.scrollTop=msgsEl.scrollHeight;
+}
+
+function showTyping(){
+  const d=document.createElement('div');
+  d.className='typing-row';d.id='typing';
+  d.innerHTML='<div class="typing-bub"><span class="d"></span><span class="d"></span><span class="d"></span></div>';
+  msgsEl.appendChild(d);msgsEl.scrollTop=msgsEl.scrollHeight;
+}
+function hideTyping(){const t=document.getElementById('typing');if(t)t.remove();}
+
+function send(){
+  if(waiting)return;
+  const txt=inpEl.value.trim();if(!txt)return;
+  inpEl.value='';inpEl.style.height='auto';
+  addMsg(txt,'user');
+  waiting=true;showTyping();
+  const delay=400+Math.random()*600;
+  setTimeout(()=>{
+    hideTyping();
+    const rep=traiterMessage(txt,userId);
+    addMsg(rep,'bot');
+    waiting=false;
+    inpEl.focus();
+  },delay);
+}
+
+function chip(t){inpEl.value=t;send();}
+
+// Message de bienvenue
+setTimeout(()=>{
+  showTyping();
+  setTimeout(()=>{
+    hideTyping();
+    addMsg(salutation(),'bot');
+    inpEl.focus();
+  },900);
+},400);
+</script>
+</body>
+</html>
